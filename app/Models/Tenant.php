@@ -10,4 +10,17 @@ class Tenant extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    protected $fillable = [
+        'name',
+        'domain',
+        'email',
+        'phone',
+        'logo',
+        'plan_id',
+        'plan_expires_at',
+        'document',
+        'status',
+        'settings'
+    ];
 }

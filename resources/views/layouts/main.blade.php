@@ -16,13 +16,28 @@
 
 </head>
 
-<body>
+
+<body style="background-color: ;">
 
     @include('layouts.header')
 
-    <div class="container">
-        @yield('content')
-    </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @yield('content')
 
     @include('layouts.footer')
 

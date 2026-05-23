@@ -24,3 +24,4 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/register', [RegisterTenantController::class, 'create'])->name('register');
+Route::post('/register', [RegisterTenantController::class, 'store'])->name('register.store');

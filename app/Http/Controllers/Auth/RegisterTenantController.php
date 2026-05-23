@@ -30,7 +30,9 @@ class RegisterTenantController extends Controller
             'password' => ['required', 'confirmed'],
         ]);
 
-        $user = DB::transaction(function () use ($validated) {
+        try {
+
+            DB::beginTransaction();
 
             $tenant = Tenant::create([
                 'name' => $validated['tenant_name'],
@@ -44,11 +46,15 @@ class RegisterTenantController extends Controller
                 'password' => Hash::make($validated['password']),
                 'role' => 'admin',
             ]);
-        });
 
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'An error occurred while creating the tenant. Please try again.' . $e->getMessage()]);
+        }
 
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('success', 'New business and user created successfully!');
     }
 }
