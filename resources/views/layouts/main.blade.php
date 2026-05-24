@@ -37,7 +37,7 @@
         </div>
     @endif
 
-    @yield('content')
+    @include('layouts.components.sidebar')
 
     @include('layouts.footer')
 

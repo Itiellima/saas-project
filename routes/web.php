@@ -25,3 +25,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/register', [RegisterTenantController::class, 'create'])->name('register');
 Route::post('/register', [RegisterTenantController::class, 'store'])->name('register.store');
+
+Route::get('/vehicles/create', function () {
+    return view('vehicles.create');
+})->middleware(['auth'])->name('vehicles.create');
