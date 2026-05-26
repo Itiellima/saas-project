@@ -61,7 +61,7 @@
                     <h4>Vehicle pictures</h4>
                     <div class="col">
                         <label for="file" class="form-label">Select pictures</label>
-                        <input type="file" id="file" name="car_picture" class="form-control" aria-label="Select pictures" multiple>
+                        <input type="file" id="file" name="car_picture[]" class="form-control" aria-label="Select pictures" multiple>
                     </div>
                 </div>
             </div>

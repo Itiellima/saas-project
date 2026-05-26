@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterTenantController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use Pest\Support\View;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,3 +30,7 @@ Route::post('/register', [RegisterTenantController::class, 'store'])->name('regi
 Route::get('/vehicles/create', function () {
     return view('vehicles.create');
 })->middleware(['auth'])->name('vehicles.create');
+
+Route::get('/costumers/index', function() {
+    return view('costumers.index');
+})->middleware(['auth'])->name('costumers.index');
