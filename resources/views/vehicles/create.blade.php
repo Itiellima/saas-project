@@ -46,12 +46,14 @@
                     <h4>Owner information</h4>
                     <div class="col-md-6">
                         <label for="owner_name" class="form-label">Owner name</label>
-                        <input type="text" id="owner_name" name="owner_name" class="form-control" oninput="this.value = this.value.toUpperCase();" required>
+                        <input type="text" id="owner_name" name="owner_name" class="form-control" oninput="this.value = this.value.toUpperCase();"
+                        disabled required>
                     </div>
         
                     <div class="col-md-6">
                         <label for="owner_contact" class="form-label">Owner contact</label>
-                        <input type="text" id="owner_contact" name="owner_contact" class="form-control" required>
+                        <input type="text" id="owner_contact" name="owner_contact" class="form-control"
+                        disabled required>
                     </div>
                 </div>
             </div>

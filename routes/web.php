@@ -31,6 +31,6 @@ Route::get('/vehicles/create', function () {
     return view('vehicles.create');
 })->middleware(['auth'])->name('vehicles.create');
 
-Route::get('/costumers/index', function() {
-    return view('costumers.index');
-})->middleware(['auth'])->name('costumers.index');
+Route::get('/customers/index', function() {
+    return view('customers.index');
+})->middleware(['auth'])->name('customers.index');

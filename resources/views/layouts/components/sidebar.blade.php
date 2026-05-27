@@ -31,7 +31,7 @@
 
 
 
-                <a href="{{ route('costumers.index') }}" class="list-group-item list-group-item-action">Customers</a>
+                <a href="{{ route('customers.index') }}" class="list-group-item list-group-item-action">Customers</a>
                 <a href="#" class="list-group-item list-group-item-action">-</a>
                 <a href="#" class="list-group-item list-group-item-action">-</a>
                 <a href="#" class="list-group-item list-group-item-action">-</a>
