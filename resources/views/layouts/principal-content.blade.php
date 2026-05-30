@@ -70,7 +70,10 @@
             </div>
 
         </div> --}}
-        @yield('content')
+        <div class="col-md-9">
+
+            @yield('content')
+        </div>
 
     </div>
 

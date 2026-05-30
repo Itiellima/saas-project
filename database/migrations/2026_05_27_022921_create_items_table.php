@@ -28,6 +28,8 @@ return new class extends Migration
             $table->decimal('cost_price', 10, 2)->default(0);
             $table->decimal('sale_price', 10, 2)->default(0);
 
+            $table->integer('quantity')->default(0);
+
 
             $table->timestamps();
         });

@@ -3,17 +3,39 @@
 @section('title', 'Dashboard - Workshop Management System')
 
 @section('content')
-    <div class="container">
+    <div class="container text-black">
 
-        <div class=" alert alert-light">
-            <h1>Welcome to the Dashboard</h1>
+        <div class="alert alert-light">
+            <h5>Welcome to the Dashboard</h5>
             <p>This is a protected area. Only authenticated users can access this page.</p>
         </div>
-        <div class="alert alert-ligth">
-            <h2>See Your Workshop</h2>
+        <div class="alert alert-light">
+            <h5>See Your Workshop</h5>
             <p>Activities in your workshop.</p>
         </div>
         <div class="row">
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-img-top mt-3 d-flex justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor"
+                            class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                        </svg>
+                    </div>
+
+                    {{-- <img src="..." class="card-img-top" alt="..."> --}}
+                    <div class="card-body" style="height: 100px;">
+                        <h5 class="card-title text-center">Create Service Order</h5>
+                        <p class="card-text text-center"></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ route('service-orders.create') }}" class="btn btn-primary" style="width: 100%">Create</a>
+
+                    </div>
+                </div>
+            </div>
+
             <div class="col-md-3">
                 <div class="card" style="width: 18rem;">
                     <div class="card-img-top mt-3 d-flex justify-content-center">
@@ -27,10 +49,12 @@
                     </div>
 
                     {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                    <div class="card-body">
-                        <h5 class="card-title">Car Model - PLATE</h5>
-                        <p class="card-text">Description of the service.</p>
-                        <a href="#" class="btn btn-primary">View Details</a>
+                    <div class="card-body" style="height: 100px;">
+                        <h5 class="card-title text-center">Car Model - PLATE</h5>
+                        <p class="card-text text-center">Description of the service.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" style="width: 100%">View Details</a>
                     </div>
                 </div>
             </div>

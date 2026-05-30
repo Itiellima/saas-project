@@ -3,18 +3,15 @@
 @section('title', 'New Vehicle - Workshop Management System')
 
 @section('content')
-    <div class="container">
+    <div class="container text-black">
 
-        <div class="alert alert-light border rounded-4">
-
-            <h4>
-                Welcome to Dashboard
+        <div class="alert alert-light">
+            <h4 class="text-black">
+                See all your vehicles in one place. Add new vehicles to your workshop and manage them efficiently.
             </h4>
-
-            <p class="mb-0">
+            <p class="text-black">
                 Sistema da oficina mecânica.
             </p>
-
         </div>
 
         {{-- Vehicle information --}}
@@ -82,6 +79,7 @@
 
         </div>
 
+        {{-- Service description --}}
         <div class="row border rounded p-3  m-2">
             <div class="col">
                 <label for="exampleFormControlTextarea1">Description of service</label>

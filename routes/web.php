@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\RegisterTenantController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Pest\Support\View;
+use App\Http\Controllers\ServiceOrderController;
+use App\Http\Controllers\ItemController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,3 +36,12 @@ Route::get('/vehicles/create', function () {
 Route::get('/customers/index', function() {
     return view('customers.index');
 })->middleware(['auth'])->name('customers.index');
+
+
+Route::middleware(['auth'])->group(function () {
+    
+    Route::get('/service-orders/create', [ServiceOrderController::class, 'create'])->name('service-orders.create');
+    
+    Route::get('/service-orders/index', [ServiceOrderController::class, 'index'])->name('service-orders.index');
+
+});
