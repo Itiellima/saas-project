@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('vehicle_id')->nullable()->constrained()->nullOnDelete();
 
-            $table->string('name');
+            $table->string('name')->nullable();
 
             $table->string('customer_name')->nullable();
             $table->string('customer_phone')->nullable();

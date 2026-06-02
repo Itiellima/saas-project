@@ -3,17 +3,14 @@
 use App\Http\Controllers\Auth\RegisterTenantController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-use Pest\Support\View;
 use App\Http\Controllers\ServiceOrderController;
-use App\Http\Controllers\ItemController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -44,4 +41,6 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/service-orders/index', [ServiceOrderController::class, 'index'])->name('service-orders.index');
 
+    Route::post('/service-orders/store', [ServiceOrderController::class, 'store'])->name('service-orders.store');
+    
 });

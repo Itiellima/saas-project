@@ -1,0 +1,29 @@
+            <div id="items">
+
+            </div>
+
+            <template id="item-template">
+
+                <div class="col-md-6">
+                    <label for="service_description_todo" class="form-label">Service Description To Do</label>
+                    <textarea class="form-control" id="service_description_todo" name="service_description_todo" rows="3"
+                        oninput="this.value = this.value.toUpperCase();"></textarea>
+                </div>
+
+            </template>
+
+            <button id="addItem" class="btn btn-primary">
+                New item
+            </button>
+
+    <script>
+            document.getElementById('addItem').addEventListener('click', () => {
+
+            const template = document.getElementById('item-template');
+
+            const clone = template.content.cloneNode(true);
+
+            document.getElementById('items').appendChild(clone);
+
+            });
+    </script>

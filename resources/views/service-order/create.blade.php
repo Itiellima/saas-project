@@ -13,62 +13,75 @@
             </p>
         </div>
 
-        <div class="row border rounded p-3 m-2">
-            <h4>OS Information</h4>
-            <div class="col-md-6">
-                <label for="costumer_name" class="form-label">Costumer Name</label>
-                <input type="text" id="costumer_name" name="costumer_name" class="form-control"
-                    oninput="this.value = this.value.toUpperCase();" required autofocus>
+        <form action="{{ route('service-orders.store') }}" method="POST">
+            @csrf
+            @method('POST')
+            <div class="row border rounded p-3 m-2">
+                <h4>OS Information</h4>
+                <div class="col-md-6">
+                    <label for="customer_name" class="form-label">Customer Name</label>
+                    <input type="text" id="customer_name" name="customer_name" class="form-control"
+                        oninput="this.value = this.value.toUpperCase();" required autofocus>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="customer_phone" class="form-label">Customer Phone</label>
+                    <input type="text" id="customer_phone" name="customer_phone" class="form-control" maxlength="15"
+                        mask="(00) 00000-0000" autofocus>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="vehicle_plate" class="form-label">Vehicle Plate</label>
+                    <input type="text" id="vehicle_plate" name="vehicle_plate" class="form-control"
+                        oninput="this.value = this.value.toUpperCase();" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="vehicle_model" class="form-label">Vehicle Model</label>
+                    <input type="text" id="vehicle_model" name="vehicle_model" class="form-control"
+                        oninput="this.value = this.value.toUpperCase();">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="vehicle_km" class="form-label">Vehicle KM</label>
+                    <input type="number" id="vehicle_km" name="vehicle_km" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="vehicle_enter" class="form-label">Vehicle Enter</label>
+                    <input type="datetime-local" id="vehicle_enter" name="vehicle_enter" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="vehicle_leave" class="form-label">Vehicle Leave</label>
+                    <input type="datetime-local" id="vehicle_leave" name="vehicle_leave" class="form-control">
+                </div>
+
+                <div class="col-md-12">
+                    <label for="description" class="form-label">Service Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                        oninput="this.value = this.value.toUpperCase();"></textarea>
+                </div>
+
             </div>
 
-            <div class="col-md-3">
-                <label for="costumer_phone" class="form-label">Costumer Phone</label>
-                <input type="text" id="costumer_phone" name="costumer_phone" class="form-control" maxlength="15"
-                    mask="(00) 00000-0000" required autofocus>
-            </div>
+            {{-- <div class="row border rounded p-3 m-2">
+                <h4>Select services</h4>
+                <div class="col-md-12">
+                    <label for="service" class="form-label">Service</label>
+                    <select class="form-select" id="service" name="service">
+                        <option value="" selected>Select service</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="repair">Repair</option>
+                        <option value="inspection">Inspection</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label>No item or service created? <a href="#">Create one</a>.</label>
+                </div>
+            </div> --}}
 
-            <div class="col-md-3">
-                <label for="vehicle_plate" class="form-label">Vehicle Plate</label>
-                <input type="text" id="vehicle_plate" name="vehicle_plate" class="form-control"
-                    oninput="this.value = this.value.toUpperCase();" required>
-            </div>
-
-            <div class="col-md-3">
-                <label for="vehicle_model" class="form-label">Vehicle Model</label>
-                <input type="text" id="vehicle_model" name="vehicle_model" class="form-control"
-                    oninput="this.value = this.value.toUpperCase();" required>
-            </div>
-
-            <div class="col-md-3">
-                <label for="vehicle_km" class="form-label">Vehicle KM</label>
-                <input type="number" id="vehicle_km" name="vehicle_km" class="form-control" required>
-            </div>
-
-            <div class="col-md-3">
-                <label for="vehicle_enter" class="form-label">Vehicle Enter</label>
-                <input type="datetime-local" id="vehicle_enter" name="vehicle_enter" class="form-control" required>
-            </div>
-
-            <div class="col-md-3">
-                <label for="vehicle_leave" class="form-label">Vehicle Leave</label>
-                <input type="datetime-local" id="vehicle_leave" name="vehicle_leave" class="form-control">
-            </div>
-
-            <div class="col-md-6">
-                <label for="service_description" class="form-label">Service Description</label>
-                <textarea class="form-control" id="service_description" name="service_description" rows="3"
-                    oninput="this.value = this.value.toUpperCase();"></textarea>
-            </div>
-
-            <div class="col">
-                <label for="total" class="form-label">Total</label>
-                <input type="text" id="total" name="total" class="form-control" required>
-            </div>
-
-        </div>
-        
-        <div class="row border rounded p-3 m-2">
-
+            {{-- <div class="row border rounded p-3 m-2">
                 <div class="mb-3">
                     <label for="customer_id" class="form-label">Customer</label>
                     <select class="form-select" id="customer_id" name="customer_id">
@@ -82,15 +95,17 @@
                         <option value="" selected>Select vehicle</option>
                     </select>
                 </div>
+            </div> --}}
 
-        </div>
-
-        <div class="row border rounded p-3  m-2">
-            <button type="submit" class="btn btn-primary">Save and continue to include items</button>
-        </div>
+            <div class="row border rounded p-3  m-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
 
 
 
 
     </div>
+
+
 @endsection
