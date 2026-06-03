@@ -43,4 +43,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/service-orders/store', [ServiceOrderController::class, 'store'])->name('service-orders.store');
     
+    Route::get('/service-orders/{id}', [ServiceOrderController::class, 'show'])->name('service-orders.show');
 });

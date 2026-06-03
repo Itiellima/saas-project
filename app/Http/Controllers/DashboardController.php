@@ -11,12 +11,11 @@ class DashboardController extends Controller
     public function index()
     {
 
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
 
-        $tenantId = Auth::id() ? Auth::user()->tenant_id : null;
 
-        $serviceOrders = ServiceOrder::where('tenant_id', $tenantId)->get();
-
-
-        return view('dashboard', compact('serviceOrders'));
+        return view('dashboard');
     }
 }
