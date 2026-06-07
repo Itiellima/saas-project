@@ -14,30 +14,7 @@
 
         <div class="list-group list-group-flush mt-2" style="font-weight: 500;">
 
-            <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action active rounded">
-                <i class="fa-solid fa-chart-pie me-2"></i>
-                Dashboard
-            </a>
-
-            <a href="{{ route('service-orders.index') }}" class="list-group-item list-group-item-action rounded">
-                <i class="fa-solid fa-file-invoice me-2"></i>
-                Service Orders
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action rounded">
-                <i class="fa-solid fa-boxes-stacked me-2"></i>
-                Items and Services
-            </a>
-
-            <a href="{{ route('vehicles.create') }}" class="list-group-item list-group-item-action rounded">
-                <i class="fa-solid fa-car me-2"></i>
-                Vehicles
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action rounded">
-                <i class="fa-solid fa-users me-2"></i>
-                Customers
-            </a>
+            @include('layouts.components.items-sidebar')
 
         </div>
 

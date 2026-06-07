@@ -15,7 +15,8 @@
         </div>
         <div class="card mb-3">
             <div class="card-header">
-                <strong>OS Number: {{ $serviceOrder->id }}</strong>
+                <strong>OS Number: {{ $serviceOrder->id }}</strong> - {{ strtoupper($serviceOrder->status ?? 'No status available.') }}
+                <button class="btn btn-sm btn-primary float-end" onclick="window.print()">Print</button>
             </div>
             <div class="card-body">
                 <h5 class="card-title">Customer: {{ $serviceOrder->customer_name }}</h5>
@@ -31,6 +32,7 @@
             </div>
             <div class="card-footer">
                 <a href="{{ route('service-orders.index') }}" class="btn btn-secondary">Back to List</a>
+                <button class="btn btn-primary">End service</button>
             </div>
         </div>
     </div>

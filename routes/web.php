@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,4 +45,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/service-orders/store', [ServiceOrderController::class, 'store'])->name('service-orders.store');
     
     Route::get('/service-orders/{id}', [ServiceOrderController::class, 'show'])->name('service-orders.show');
+    
 });
+
+
+Route::get('/items/index', [ItemController::class, 'index'])->name('items.index');
+Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
+Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('items.edit');
+Route::put('/items/update', [ItemController::class, 'update'])->name('items.update');

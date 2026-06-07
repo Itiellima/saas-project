@@ -17,4 +17,9 @@ class Item extends Model
         'sale_price',
         'quantity',
     ];
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 }

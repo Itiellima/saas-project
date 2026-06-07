@@ -16,29 +16,7 @@
 
         <div class="list-group list-group-flush">
 
-            <a href="#" class="list-group-item list-group-item-action active">
-
-                Dashboard
-
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action">
-
-                Stock
-
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action">
-
-                Vehicles
-
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action">
-
-                Customers
-
-            </a>
+            @include('layouts.components.items-sidebar')
 
         </div>
 
