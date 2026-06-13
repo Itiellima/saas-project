@@ -18,6 +18,9 @@
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    {{-- tom-select --}}
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.6.1/dist/css/tom-select.css" rel="stylesheet">
+
 </head>
 
 
@@ -90,7 +93,12 @@
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
         </script>
 
+        {{-- tom-select --}}
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.1/dist/js/tom-select.complete.min.js"></script>
+
         @stack('scripts')
+
+
 
     </body>
 

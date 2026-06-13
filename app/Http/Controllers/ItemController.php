@@ -49,7 +49,8 @@ class ItemController extends Controller
         return redirect()->route('items.index')->with('success', 'Item created successfully.');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $item = Item::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
 
         return view('items.create', compact('item'));
@@ -80,6 +81,5 @@ class ItemController extends Controller
         ]);
 
         return redirect()->route('items.index')->with('success', 'Item updated successfully.');
-
     }
 }

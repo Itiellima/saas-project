@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\ServiceOrder;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,8 @@ class ServiceOrderController extends Controller
         $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)
             ->findOrFail($id);
 
-        return view('service-order.show', compact('serviceOrder'));
+        $items = Item::where('tenant_id', Auth::user()->tenant_id)->get();
+
+        return view('service-order.show', compact('serviceOrder', 'items'));
     }
 }

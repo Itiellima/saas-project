@@ -15,7 +15,8 @@
         </div>
         <div class="card mb-3">
             <div class="card-header">
-                <strong>OS Number: {{ $serviceOrder->id }}</strong> - {{ strtoupper($serviceOrder->status ?? 'No status available.') }}
+                <strong>OS Number: {{ $serviceOrder->id }}</strong> -
+                {{ strtoupper($serviceOrder->status ?? 'No status available.') }}
                 <button class="btn btn-sm btn-primary float-end" onclick="window.print()">Print</button>
             </div>
             <div class="card-body">
@@ -29,6 +30,16 @@
                 <p class="card-text">Status: {{ $serviceOrder->status }}</p>
                 <p class="card-text">Total: {{ $serviceOrder->total }}</p>
                 <p class="card-text">Description: {{ $serviceOrder->description ?? 'No description available.' }}</p>
+
+                <select class="" id="item" name="item[]" multiple placeholder="Selecione os serviços">
+                    @foreach ($items as $item)
+                        <option value="{{ $item->id }}">
+                            {{ $item->name }} - {{ $item->type }} - {{ $item->description }}
+                        </option>
+                    @endforeach
+                </select>
+
+
             </div>
             <div class="card-footer">
                 <a href="{{ route('service-orders.index') }}" class="btn btn-secondary">Back to List</a>
@@ -38,6 +49,13 @@
     </div>
 
 
+    @push('scripts')
+        <script>
+            new TomSelect("#item", {
+                maxItems: 100
+            });
+        </script>
+    @endpush
 
 
 @endsection
