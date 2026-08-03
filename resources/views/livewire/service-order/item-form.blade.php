@@ -27,6 +27,16 @@
 
                 </select>
 
+                {{-- <select class="" id="item" name="item" placeholder="Selecione os serviços">
+                    <option value="">
+                        Select an item
+                    </option>
+                    @foreach ($items as $item)
+                        <option value="{{ $item->id }}">
+                            {{ $item->name }} - {{ $item->type }} - {{ $item->description }}
+                        </option>
+                    @endforeach
+                </select> --}}
             </div>
 
             <div class="mb-3">
