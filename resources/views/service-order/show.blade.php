@@ -31,13 +31,26 @@
                 <p class="card-text">Total: {{ $serviceOrder->total }}</p>
                 <p class="card-text">Description: {{ $serviceOrder->description ?? 'No description available.' }}</p>
 
-                <select class="" id="item" name="item[]" multiple placeholder="Selecione os serviços">
+                <livewire:service-order.item-form :serviceOrder="$serviceOrder" />
+
+                <livewire:service-order.item-list :serviceOrder="$serviceOrder" />
+
+
+                {{-- <select class="" id="item" name="item[]" multiple placeholder="Selecione os serviços">
                     @foreach ($items as $item)
                         <option value="{{ $item->id }}">
                             {{ $item->name }} - {{ $item->type }} - {{ $item->description }}
                         </option>
                     @endforeach
                 </select>
+
+                <div id="items-container">
+
+                </div>
+
+                <button type="button" class="btn btn-secondary" id="add-item">
+                    + Adicionar item
+                </button> --}}
 
 
             </div>
@@ -57,5 +70,86 @@
         </script>
     @endpush
 
+
+    <template id="item-template">
+
+        <div class="row border rounded p-3 mt-2 item-row">
+
+            <div class="col-md-5">
+
+                <label>Item</label>
+
+                <select class="form-select" name="items[][id]">
+                    <option value="">
+                        Selecione
+                    </option>
+                    @foreach ($items as $item)
+                        <option value="{{ $item->id }}">
+                            {{ $item->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+
+            <div class="col-md-2">
+                <label>Quantidade</label>
+                <input type="number" class="form-control" name="items[][quantity]" value="1">
+            </div>
+
+
+            <div class="col-md-2">
+                <label>Preço</label>
+                <input type="number" step="0.01" class="form-control" name="items[][price]">
+            </div>
+
+
+            <div class="col-md-2">
+                <label>Desconto</label>
+                <input type="number" step="0.01" class="form-control" name="items[][discount]" value="0">
+            </div>
+
+
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="button" class="btn btn-danger remove-item">
+                    X
+                </button>
+            </div>
+
+
+        </div>
+
+    </template>
+
+
+    @push('scripts')
+        <script>
+            const button = document.getElementById('add-item');
+            const container = document.getElementById('items-container');
+            const template = document.getElementById('item-template');
+
+
+            button.addEventListener('click', function() {
+
+                const clone = template.content.cloneNode(true);
+
+                container.appendChild(clone);
+
+            });
+
+
+            document.addEventListener('click', function(e) {
+
+                if (e.target.classList.contains('remove-item')) {
+
+                    e.target
+                        .closest('.item-row')
+                        .remove();
+
+                }
+
+            });
+        </script>
+    @endpush
 
 @endsection

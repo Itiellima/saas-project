@@ -49,7 +49,7 @@
 
                 <div class="col-md-3">
                     <label for="vehicle_enter" class="form-label">Vehicle Enter</label>
-                    <input type="datetime-local" id="vehicle_enter" name="vehicle_enter" class="form-control">
+                    <input type="datetime-local" id="vehicle_enter" name="vehicle_enter" class="form-control" value="{{ now()->format('Y-m-d\TH:i') }}">
                 </div>
 
                 <div class="col-md-3">
@@ -65,44 +65,10 @@
 
             </div>
 
-            {{-- <div class="row border rounded p-3 m-2">
-                <h4>Select services</h4>
-                <div class="col-md-12">
-                    <label for="service" class="form-label">Service</label>
-                    <select class="form-select" id="service" name="service">
-                        <option value="" selected>Select service</option>
-                        <option value="maintenance">Maintenance</option>
-                        <option value="repair">Repair</option>
-                        <option value="inspection">Inspection</option>
-                    </select>
-                </div>
-                <div class="col-md-12">
-                    <label>No item or service created? <a href="#">Create one</a>.</label>
-                </div>
-            </div> --}}
-
-            {{-- <div class="row border rounded p-3 m-2">
-                <div class="mb-3">
-                    <label for="customer_id" class="form-label">Customer</label>
-                    <select class="form-select" id="customer_id" name="customer_id">
-                        <option value="" selected>Select customer</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="vehicle_id" class="form-label">Vehicle</label>
-                    <select class="form-select" id="vehicle_id" name="vehicle_id">
-                        <option value="" selected>Select vehicle</option>
-                    </select>
-                </div>
-            </div> --}}
-
             <div class="row border rounded p-3  m-2">
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
-
-
 
 
     </div>
