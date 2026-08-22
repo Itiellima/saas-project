@@ -6,8 +6,8 @@
 
             <tr>
                 <th>Item</th>
-                <th>Qtd</th>
-                <th>Preço</th>
+                <th>Quantity</th>
+                <th>Price</th>
                 <th>Total</th>
                 <th>Actions</th>
             </tr>

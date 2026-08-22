@@ -67,4 +67,13 @@ class ServiceOrderController extends Controller
 
         return view('service-order.show', compact('serviceOrder', 'items'));
     }
+
+    public function destroy($id)
+    {
+        $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
+        
+        $serviceOrder->delete();
+
+        return redirect()->route('service-orders.index')->with('success', 'Service order deleted successfully.');
+    }
 }
