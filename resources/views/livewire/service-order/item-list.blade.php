@@ -9,6 +9,7 @@
                 <th>Qtd</th>
                 <th>Preço</th>
                 <th>Total</th>
+                <th>Actions</th>
             </tr>
 
         </thead>
@@ -26,7 +27,15 @@
 
                     <td>{{ $item->total }}</td>
 
+                    <td>
+
+                        <button type="button" wire:click="deleteItemList({{ $item->id }})" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </td>
+
                 </tr>
+                
             @endforeach
 
         </tbody>

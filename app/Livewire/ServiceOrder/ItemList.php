@@ -25,6 +25,11 @@ class ItemList extends Component
         // O método apenas força um novo render.
     }
 
+    public function deleteItemList($id)
+    {
+        $this->serviceOrder->items()->findOrFail($id)->delete();
+    }
+
     public function render()
     {
         return view('livewire.service-order.item-list', [

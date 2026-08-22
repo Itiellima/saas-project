@@ -20,16 +20,27 @@
                 <button class="btn btn-sm btn-primary float-end" onclick="window.print()">Print</button>
             </div>
             <div class="card-body">
-                <h5 class="card-title">Customer: {{ $serviceOrder->customer_name }}</h5>
-                <p class="card-text">Phone: {{ $serviceOrder->customer_phone }}</p>
-                <p class="card-text">Vehicle Plate: {{ $serviceOrder->vehicle_plate }}</p>
-                <p class="card-text">Vehicle Model: {{ $serviceOrder->vehicle_model }}</p>
-                <p class="card-text">Vehicle KM: {{ $serviceOrder->vehicle_km }}</p>
-                <p class="card-text">Vehicle Enter: {{ $serviceOrder->vehicle_enter }}</p>
-                <p class="card-text">Vehicle Leave: {{ $serviceOrder->vehicle_leave }}</p>
-                <p class="card-text">Status: {{ $serviceOrder->status }}</p>
-                <p class="card-text">Total: {{ $serviceOrder->total }}</p>
-                <p class="card-text">Description: {{ $serviceOrder->description ?? 'No description available.' }}</p>
+                <div class="row">
+                    <div class="col col-md-3">
+
+                        <h5 class="card-title">Customer: {{ $serviceOrder->customer_name }}</h5>
+                        <p class="card-text">Phone: {{ $serviceOrder->customer_phone }}</p>
+                        <p class="card-text">Vehicle Plate: {{ $serviceOrder->vehicle_plate }}</p>
+                        <p class="card-text">Vehicle Model: {{ $serviceOrder->vehicle_model }}</p>
+                        <p class="card-text">Vehicle KM: {{ $serviceOrder->vehicle_km }}</p>
+
+                    </div>
+                    <div class="col col-md-9">
+
+                        <p class="card-text">Vehicle Enter: {{ $serviceOrder->vehicle_enter }}</p>
+                        <p class="card-text">Vehicle Leave: {{ $serviceOrder->vehicle_leave }}</p>
+                        <p class="card-text">Status: {{ $serviceOrder->status }}</p>
+                        <p class="card-text">Total: {{ $serviceOrder->total }}</p>
+                        <p class="card-text">Description: {{ $serviceOrder->description ?? 'No description available.' }}
+                        </p>
+
+                    </div>
+                </div>
 
                 <livewire:service-order.item-form :serviceOrder="$serviceOrder" />
 
