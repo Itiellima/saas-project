@@ -1,4 +1,4 @@
-<div>
+<div class="row mb-3 border rounded p-3 m-2">
     {{-- Smile, breathe, and go slowly. - Thich Nhat Hanh --}}
     <table class="table">
 
@@ -35,10 +35,15 @@
                     </td>
 
                 </tr>
-                
             @endforeach
 
         </tbody>
 
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                <td colspan="2"><strong> {{ number_format($total, 2, ',', '.') }}</strong></td>
+            </tr>
+        </tfoot>
     </table>
 </div>

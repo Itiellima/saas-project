@@ -42,10 +42,9 @@ class ItemForm extends Component
             'price' => $item->sale_price,
 
             'total' => ($item->sale_price * $this->quantity) - $this->discount,
-            
+
         ]);
 
-        $this->dispatch('item-added');
 
         $this->reset([
             'item_id',
@@ -54,6 +53,9 @@ class ItemForm extends Component
 
         $this->quantity = 1;
         $this->discount = 0;
+
+
+        $this->dispatch('item-added');
     }
 
     public function mount(ServiceOrder $serviceOrder)

@@ -17,17 +17,19 @@
                     </label>
 
                     <div class="col-md-11">
-                        <select wire:model="item_id" id="item_id" class="form-select">
-                            <option value="">
-                                Select an item
-                            </option>
-
-                            @foreach ($items as $item)
-                                <option value="{{ $item->id }}">
-                                    {{ $item->name }} - {{ $item->type }} - {{ $item->sale_price }}
+                        <div wire:ignore>
+                            <select wire:model="item_id" id="item" placeholder="Select an item">
+                                <option value="">
+                                    Select an item
                                 </option>
-                            @endforeach
-                        </select>
+
+                                @foreach ($items as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->name }} - {{ $item->type }} - {{ $item->sale_price }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
 

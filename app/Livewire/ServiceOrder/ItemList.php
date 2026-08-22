@@ -37,6 +37,10 @@ class ItemList extends Component
                 ->items()
                 ->latest()
                 ->get(),
+
+            'total' => $this->serviceOrder
+                ->items()
+                ->sum('total'),
         ]);
     }
 }

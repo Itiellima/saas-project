@@ -74,16 +74,8 @@
                 <livewire:service-order.item-list :serviceOrder="$serviceOrder" />
 
 
-                {{-- <select class="" id="item" name="item" placeholder="Selecione os serviços">
-                    @foreach ($items as $item)
-                        <option value="{{ $item->id }}">
-                            {{ $item->name }} - {{ $item->type }} - {{ $item->description }}
-                        </option>
-                    @endforeach
-                </select> --}}
-
-
             </div>
+
             <div class="card-footer">
                 <a href="{{ route('service-orders.index') }}" class="btn btn-secondary">Back to List</a>
 
@@ -106,12 +98,36 @@
 
     @push('scripts')
         <script>
-            new TomSelect('#item', {
-                create: true,
-                sortField: {
-                    field: 'text',
-                    direction: 'asc'
+            document.addEventListener('livewire:init', () => {
+
+                function initItemSelect() {
+                    const select = document.querySelector('#item');
+
+                    if (!select) {
+                        return;
+                    }
+
+                    if (select.tomselect) {
+                        select.tomselect.destroy();
+                    }
+
+                    new TomSelect(select, {
+                        create: true,
+                        sortField: {
+                            field: 'text',
+                            direction: 'asc'
+                        }
+                    });
                 }
+
+                initItemSelect();
+
+                Livewire.on('item-added', () => {
+                    setTimeout(() => {
+                        initItemSelect();
+                    }, 50);
+                });
+
             });
         </script>
     @endpush
