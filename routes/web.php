@@ -56,3 +56,4 @@ Route::get('/items/create', [ItemController::class, 'create'])->name('items.crea
 Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
 Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('items.edit');
 Route::put('/items/update', [ItemController::class, 'update'])->name('items.update');
+Route::delete('/items/destroy/{id}', [ItemController::class, 'destroy'])->name('items.destroy');

@@ -82,4 +82,13 @@ class ItemController extends Controller
 
         return redirect()->route('items.index')->with('success', 'Item updated successfully.');
     }
+
+    public function destroy($id)
+    {
+        $item = Item::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
+
+        $item->delete();
+
+        return redirect()->route('items.index')->with('success', 'Item deleted successfully.');
+    }
 }
