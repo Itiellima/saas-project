@@ -1,5 +1,8 @@
 <!-- SIDEBAR DESKTOP -->
-<aside class="d-none d-md-flex flex-column justify-content-between vh-100 p-3 bg-white border-end" style="width: 260px;">
+<aside
+    class="d-none d-md-flex flex-column justify-content-between position-sticky top-0 vh-100 p-3 bg-white border-end"
+    style="width: 260px;"
+>
 
     <div>
 
@@ -42,7 +45,6 @@
 
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            @method('POST')
 
             <button class="list-group-item list-group-item-action text-danger rounded border-0">
                 <i class="fa-solid fa-right-from-bracket me-2"></i>
