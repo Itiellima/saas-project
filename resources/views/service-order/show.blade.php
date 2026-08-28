@@ -13,6 +13,7 @@
                 View detailed information about your service order.
             </p>
         </div>
+
         <div class="card mb-3">
             <div class="card-header">
                 <strong>OS Number: {{ $serviceOrder->id }}</strong> -
@@ -38,7 +39,8 @@
                         <strong>
                             <p class="card-text">Vehicle Model: {{ $serviceOrder->vehicle_model }}</p>
                             <p class="card-text">Vehicle KM: {{ $serviceOrder->vehicle_km }}</p>
-                            <p class="card-text">Vehicle Enter: {{ $serviceOrder->vehicle_enter?->format('d/m/Y H:i') }}</p>
+                            <p class="card-text">Vehicle Enter: {{ $serviceOrder->vehicle_enter?->format('d/m/Y H:i') }}
+                            </p>
 
                         </strong>
 
@@ -48,7 +50,8 @@
 
                         <strong>
 
-                            <p class="card-text">Vehicle Leave: {{ $serviceOrder->vehicle_leave?->format('d/m/Y H:i') }}</p>
+                            <p class="card-text">Vehicle Leave: {{ $serviceOrder->vehicle_leave?->format('d/m/Y H:i') }}
+                            </p>
                             <p class="card-text">Status: {{ $serviceOrder->status }}</p>
                             <p class="card-text">Total: {{ $serviceOrder->total }}</p>
 
@@ -68,24 +71,36 @@
 
                     </div>
                 </div>
+                
+                <fieldset @disabled($serviceOrder->status === 'finished')>
 
-                <livewire:service-order.item-form :serviceOrder="$serviceOrder" />
+                    <livewire:service-order.item-form :serviceOrder="$serviceOrder" />
 
-                <livewire:service-order.item-list :serviceOrder="$serviceOrder" />
+                    <livewire:service-order.item-list :serviceOrder="$serviceOrder" />
 
+                </fieldset>
 
             </div>
 
             <div class="card-footer">
                 <a href="{{ route('service-orders.index') }}" class="btn btn-secondary">Back to List</a>
 
-                <button class="btn btn-primary">End and Close service</button>
+
+                <form action="{{ route('service-orders.close', $serviceOrder->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('PUT')
+
+                    <button type="submit" class="btn btn-warning" @disabled($serviceOrder->status === 'finished')>
+                        Close Service Order
+                    </button>
+
+                </form>
 
                 <form action="{{ route('service-orders.destroy', $serviceOrder->id) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
 
-                    <button type="submit" class="btn btn-danger float-end"
+                    <button type="submit" class="btn btn-danger float-end" @disabled($serviceOrder->status === 'finished')
                         onclick="return confirm('Are you sure you want to delete this service order?')">
                         Delete Service Order
                     </button>

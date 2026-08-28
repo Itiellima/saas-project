@@ -19,8 +19,9 @@ class ItemController extends Controller
 
     public function create()
     {
+        $item = null; // Initialize $item as null for the create view
 
-        return view('items.create');
+        return view('items.create', compact('item'));
     }
 
     public function store(Request $request)
@@ -70,15 +71,7 @@ class ItemController extends Controller
             'quantity' => ['nullable', 'integer'],
         ]);
 
-        $item->update([
-            'name' => $validated['name'],
-            'type' => $validated['type'],
-            'stock' => $validated['stock'],
-            'description' => $validated['description'],
-            'cost_price' => $validated['cost_price'],
-            'sale_price' => $validated['sale_price'],
-            'quantity' => $validated['quantity'],
-        ]);
+        $item->update($validated);
 
         return redirect()->route('items.index')->with('success', 'Item updated successfully.');
     }

@@ -76,4 +76,18 @@ class ServiceOrderController extends Controller
 
         return redirect()->route('service-orders.index')->with('success', 'Service order deleted successfully.');
     }
+
+    public function closeServiceOrder($id)
+    {
+        $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
+
+        if ($serviceOrder->status === 'finished') {
+            return redirect()->route('service-orders.show', $serviceOrder->id)->with('error', 'Service order is already finished.');
+        }
+
+        $serviceOrder->status = 'finished';
+        $serviceOrder->save();
+
+        return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Service order finished successfully.');
+    }
 }
