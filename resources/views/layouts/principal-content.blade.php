@@ -3,7 +3,7 @@
 
     <div class="row g-4">
 
-        <div class="col-md-9">
+        <div class="col-12">
 
             @yield('content')
 
