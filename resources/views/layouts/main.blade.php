@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -12,29 +13,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
+    {{-- Bootstrap Icons --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @stack('styles')
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    {{-- tom-select --}}
+    {{-- Tom Select --}}
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.6.1/dist/css/tom-select.css" rel="stylesheet">
 
 </head>
 
 
-<body style="background-color: ;">
+<body class="bg-light">
 
     @if ($errors->any())
+
         <div class="alert alert-danger">
+
             <ul class="mb-0">
+
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
+
             </ul>
+
         </div>
+
     @endif
+
 
     @if (session('success'))
         <div class="alert alert-success">
@@ -42,64 +53,43 @@
         </div>
     @endif
 
-    {{-- content --}}
-    {{-- <body>
-        <div class="container-fluid">
-    
-            <div class="row">
-    
-                <div class="col-md-2 p-0">
-                    @include('layouts.sidebar')
-                </div>
-    
-                <div class="col-md-10 p-0">
-    
-                    @include('layouts.header')
-                    @yield('content')
-    
-                </div>
-            </div>
-    
-        </div>
-    </body>
 
-    @include('layouts.footer') --}}
+    <div class="d-flex">
 
-    <body class="bg-light">
+        {{-- SIDEBAR DESKTOP --}}
+        @include('layouts.sidebar')
 
-        <div class="d-flex">
 
-            <!-- SIDEBAR DESKTOP -->
-            @include('layouts.sidebar')
+        {{-- MAIN --}}
+        <div class="flex-grow-1">
 
-            <!-- MAIN -->
-            <div class="flex-grow-1">
+            {{-- TOPBAR --}}
+            @include('layouts.topbar')
 
-                <!-- TOPBAR -->
-                @include('layouts.topbar')
 
-                <!-- PRINCIPAL CONTENT -->
-                @include('layouts.principal-content')
-
-            </div>
+            {{-- PRINCIPAL CONTENT --}}
+            @include('layouts.principal-content')
 
         </div>
 
-        <!-- MOBILE SIDEBAR -->
-        @include('layouts.mobile-sidebar')
-
-        {{-- Bootstrap JS --}}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
-        </script>
-
-        {{-- tom-select --}}
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.1/dist/js/tom-select.complete.min.js"></script>
-
-        @stack('scripts')
+    </div>
 
 
+    {{-- MOBILE SIDEBAR --}}
+    @include('layouts.mobile-sidebar')
 
-    </body>
+
+    {{-- Bootstrap JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYWjRwcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+    {{-- Tom Select --}}
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.1/dist/js/tom-select.complete.min.js"></script>
+
+
+    @stack('scripts')
+
+</body>
 
 </html>

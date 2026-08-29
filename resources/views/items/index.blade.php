@@ -6,11 +6,11 @@
 
     <div class="container py-3">
 
-        {{-- CABEÇALHO --}}
+        {{-- HEADER --}}
         <div class="alert alert-light border shadow-sm">
 
             <h4 class="text-black mb-2">
-                <i class="fa-solid fa-boxes-stacked me-2 text-primary"></i>
+                <i class="bi bi-boxes-stacked me-2 text-primary"></i>
                 Items and Services
             </h4>
 
@@ -25,8 +25,8 @@
         {{-- BOTÃO --}}
         <div class="mb-4">
 
-            <a href="{{ route('items.create') }}" class="btn btn-primary">
-                <i class="fa-solid fa-plus me-1"></i>
+            <a href="{{ route('items.create') }}" class="btn text-white" style="background-color: #ff6500;">
+                <i class="bi bi-plus me-1"></i>
                 Add New Item or Service
             </a>
 
@@ -92,7 +92,7 @@
                             <div class="d-flex gap-2">
 
                                 <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-secondary flex-fill">
-                                    <i class="fa-solid fa-pen me-1"></i>
+                                    <i class="bi bi-pencil me-1"></i>
                                     Edit
                                 </a>
 
@@ -103,7 +103,7 @@
 
                                     <button type="submit" class="btn btn-sm btn-danger w-100"
                                         onclick="return confirm('Are you sure you want to delete this item or service?')">
-                                        <i class="fa-solid fa-trash me-1"></i>
+                                        <i class="bi bi-trash me-1"></i>
                                         Delete
                                     </button>
 
@@ -123,4 +123,3 @@
     </div>
 
 @endsection
-```

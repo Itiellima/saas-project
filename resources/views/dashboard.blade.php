@@ -10,7 +10,7 @@
             <p>This is a protected area. Only authenticated users can access this page.</p>
         </div>
         <div class="row">
-        
+
 
         </div>
 

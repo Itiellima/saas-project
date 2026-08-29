@@ -1,75 +1,248 @@
 @extends('layouts.main')
 
-@section('title', 'OS - Workshop Management System')
+@section('title', 'Ordens de Serviço - OficinaOS')
 
 @section('content')
-    <div class="container">
-        <div class="alert alert-light">
-            <h4 class="text-black">
-                Service Orders
-            </h4>
-            <p class="text-black">
-                Manage your service orders efficiently.
-            </p>
-        </div>
-    </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 mt-3">
-                <div class="card card-hover" style="width: 18rem;">
-                    <div class="card-img-top mt-3 d-flex justify-content-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor"
-                            class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                        </svg>
-                    </div>
+    <div class="container-fluid px-3 px-md-4 py-4">
 
-                    {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                    <div class="card-body" style="height: 100px;">
-                        <h5 class="card-title text-center">Create Service Order</h5>
-                        <p class="card-text text-center"></p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="{{ route('service-orders.create') }}" class="btn btn-primary"
-                            style="width: 100%">Create</a>
-                    </div>
-                </div>
+        {{-- CABEÇALHO --}}
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+            <div>
+                <h2 class="fw-bold mb-1">
+                    <i class="fa-solid fa-clipboard-list me-2" style="color: #ff6500;"></i>
+                    Ordens de Serviço
+                </h2>
+
+                <p class="text-secondary mb-0">
+                    Gerencie e acompanhe as ordens de serviço da sua empresa.
+                </p>
             </div>
 
-            @foreach ($serviceOrders as $order)
-                <div class="col-md-3 mt-3">
-                    <div class="card card-hover" style="width: 18rem;">
-                        
-                        <div class="card-img-top mt-3 d-flex justify-content-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor"
-                                class="bi bi-car-front" viewBox="0 0 16 16">
-                                <path
-                                    d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0m10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2zM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17s2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276" />
-                                <path
-                                    d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679q.05.242.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.8.8 0 0 0 .381-.404l.792-1.848ZM4.82 3a1.5 1.5 0 0 0-1.379.91l-.792 1.847a1.8 1.8 0 0 1-.853.904.8.8 0 0 0-.43.564L1.03 8.904a1.5 1.5 0 0 0-.03.294v.413c0 .796.62 1.448 1.408 1.484 1.555.07 3.786.155 5.592.155s4.037-.084 5.592-.155A1.48 1.48 0 0 0 15 9.611v-.413q0-.148-.03-.294l-.335-1.68a.8.8 0 0 0-.43-.563 1.8 1.8 0 0 1-.853-.904l-.792-1.848A1.5 1.5 0 0 0 11.18 3z" />
-                            </svg>
-                        </div>
-
-                        {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                        <div class="card-body" style="height: 100px;">
-                            <h5 class="card-title text-center">
-                                OS Number: {{ $order->id }} <br>
-                                {{ $order->vehicle_plate }}</h5>
-                            <p class="card-text text-center">{{ strtoupper($order->status ?? 'No status available.') }}</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="{{ route('service-orders.show', $order->id) }}" class="btn btn-primary" style="width: 100%">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+            <div class="mt-3 mt-md-0">
+                <a href="{{ route('service-orders.create') }}" class="btn text-white fw-semibold px-4"
+                    style="background-color: #ff6500;">
+                    <i class="bi bi-file-earmark-plus"></i>
+                    Nova OS
+                </a>
+            </div>
 
         </div>
 
-        <fieldset class="p-2 mt-3">
-            {{ $serviceOrders->links() }}
-        </fieldset>
+
+        {{-- RESUMO --}}
+        <div class="row g-3 mb-4">
+
+            <div class="col-12 col-sm-6 col-xl-3">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    <div class="card-body d-flex align-items-center">
+
+                        <div class="rounded-3 d-flex align-items-center justify-content-center me-3"
+                            style="width: 50px; height: 50px; background-color: #fff1e6;">
+                            <i class="bi bi-clipboard-check" style="color:#ff6500"></i>
+                        </div>
+
+                        <div>
+                            <small class="text-secondary">
+                                Total de OS
+                            </small>
+
+                            <h4 class="fw-bold mb-0">
+                                {{ $serviceOrders->total() }}
+                            </h4>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- LISTA --}}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h5 class="fw-bold mb-0">
+                Ordens recentes
+            </h5>
+
+            <span class="text-secondary small">
+                {{ $serviceOrders->count() }} nesta página
+            </span>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            {{-- CARD NOVA OS --}}
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+
+                <div class="card h-100 border-2 border-dashed shadow-sm" style="border-color: #ff6500 !important;">
+
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center text-center py-5">
+
+                        <div class="rounded-circle d-flex align-items-center justify-content-center mb-3"
+                            style="width: 75px; height: 75px; background-color: #fff1e6;">
+                            <i class="bi bi-plus fs-3" style="color: #ff6500;"></i>
+                        </div>
+
+                        <h5 class="fw-bold mb-2">
+                            Nova Ordem de Serviço
+                        </h5>
+
+                        <p class="text-secondary small mb-4">
+                            Abra uma nova OS para registrar um atendimento.
+                        </p>
+
+                        <a href="{{ route('service-orders.create') }}" class="btn text-white px-4"
+                            style="background-color: #ff6500;">
+                            <i class="bi bi-file-earmark-plus me-2"></i>
+                            Criar OS
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- ORDENS --}}
+            @forelse ($serviceOrders as $order)
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+
+                    <div class="card h-100 border-0 shadow-sm card-hover">
+
+                        {{-- TOPO --}}
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                                <div class="rounded-3 d-flex align-items-center justify-content-center"
+                                    style="width: 50px; height: 50px; background-color: #f1f3f5;">
+                                    <i class="bi bi-car-front" style="color:#ff6500"></i>
+                                </div>
+
+
+                                {{-- STATUS --}}
+                                @php
+                                    $status = strtolower($order->status ?? 'pending');
+
+                                    $statusClass = match ($status) {
+                                        'finished' => 'success',
+                                        'cancelled' => 'danger',
+                                        'in_progress' => 'warning',
+                                        default => 'secondary',
+                                    };
+                                @endphp
+
+                                <span class="badge text-bg-{{ $statusClass }}">
+                                    {{ strtoupper($order->status ?? 'PENDING') }}
+                                </span>
+
+                            </div>
+
+
+                            {{-- OS --}}
+                            <div class="mb-3">
+
+                                <small class="text-secondary">
+                                    Ordem de Serviço
+                                </small>
+
+                                <h5 class="fw-bold mb-1">
+                                    #{{ $order->id }}
+                                </h5>
+
+                            </div>
+
+
+                            {{-- VEÍCULO --}}
+                            <div class="d-flex align-items-center">
+
+                                <i class="fa-solid fa-car-side text-secondary me-2"></i>
+
+                                <div>
+
+                                    <small class="text-secondary d-block">
+                                        Veículo
+                                    </small>
+
+                                    <span class="fw-semibold">
+                                        {{ $order->vehicle_plate ?: 'Não informado' }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- FOOTER --}}
+                        <div class="card-footer bg-white border-0 pt-0 pb-3 px-3">
+
+                            <a href="{{ route('service-orders.show', $order->id) }}"
+                                class="btn btn-outline-secondary w-100">
+                                <i class="fa-solid fa-eye me-2"></i>
+                                Ver detalhes
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @empty
+
+                <div class="col-12">
+
+                    <div class="card border-0 shadow-sm">
+
+                        <div class="card-body text-center py-5">
+
+                            <i class="fa-solid fa-clipboard-list fs-1 text-secondary mb-3"></i>
+
+                            <h5 class="fw-bold">
+                                Nenhuma ordem de serviço
+                            </h5>
+
+                            <p class="text-secondary">
+                                Você ainda não possui ordens de serviço cadastradas.
+                            </p>
+
+                            <a href="{{ route('service-orders.create') }}" class="btn text-white"
+                                style="background-color: #ff6500;">
+                                <i class="fa-solid fa-plus me-2"></i>
+                                Criar primeira OS
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            @endforelse
+
+        </div>
+
+
+        {{-- PAGINAÇÃO --}}
+        @if ($serviceOrders->hasPages())
+            <div class="d-flex justify-content-center mt-4">
+
+                {{ $serviceOrders->links() }}
+
+            </div>
+        @endif
+
     </div>
+
 @endsection
