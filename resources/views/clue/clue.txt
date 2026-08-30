@@ -1,29 +1,48 @@
-            <div id="items">
 
-            </div>
-
-            <template id="item-template">
-
-                <div class="col-md-6">
-                    <label for="service_description_todo" class="form-label">Service Description To Do</label>
-                    <textarea class="form-control" id="service_description_todo" name="service_description_todo" rows="3"
-                        oninput="this.value = this.value.toUpperCase();"></textarea>
-                </div>
-
-            </template>
-
-            <button id="addItem" class="btn btn-primary">
-                New item
-            </button>
-
-    <script>
-            document.getElementById('addItem').addEventListener('click', () => {
-
-            const template = document.getElementById('item-template');
-
-            const clone = template.content.cloneNode(true);
-
-            document.getElementById('items').appendChild(clone);
-
-            });
-    </script>
+    | O que representa          | Bootstrap Icon            | Uso              |
+| ------------------------- | ------------------------- | ---------------- |
+| 🔧 Ferramenta             | `bi-wrench`               | Oficina          |
+| 🛠️ Ferramentas           | `bi-tools`                | Serviços/oficina |
+| 👤 Usuário                | `bi-person`               | Perfil/cliente   |
+| 👥 Usuários               | `bi-people`               | Clientes         |
+| ⚙️ Configurações          | `bi-gear`                 | Configurações    |
+| 🚪 Sair                   | `bi-box-arrow-right`      | Logout           |
+| 📂 Pasta aberta           | `bi-folder2-open`         | OS aberta        |
+| 🔄 Atualizar/em andamento | `bi-arrow-repeat`         | Em andamento     |
+| ✅ Concluído               | `bi-check-circle`         | Finalizada       |
+| ❌ Cancelado               | `bi-x-circle`             | Cancelada        |
+| 🚗 Carro                  | `bi-car-front`            | Veículo          |
+| 📋 Prancheta              | `bi-clipboard`            | OS               |
+| 📋✓ Prancheta concluída   | `bi-clipboard-check`      | OS finalizada    |
+| 📦 Caixa                  | `bi-box`                  | Produto          |
+| 📦 Produto                | `bi-box-seam`             | Estoque/produto  |
+| 🛒 Carrinho               | `bi-cart`                 | Vendas           |
+| ➕ Mais                    | `bi-plus`                 | Adicionar        |
+| ➕ Círculo                 | `bi-plus-circle`          | Adicionar        |
+| ✏️ Editar                 | `bi-pencil`               | Editar           |
+| 🗑️ Lixeira               | `bi-trash`                | Excluir          |
+| 🖨️ Impressora            | `bi-printer`              | Imprimir         |
+| ← Voltar                  | `bi-arrow-left`           | Voltar           |
+| 🔒 Cadeado                | `bi-lock`                 | Bloquear         |
+| 🔓 Desbloquear            | `bi-unlock`               | Desbloquear      |
+| 📅 Calendário             | `bi-calendar`             | Datas            |
+| 💰 Dinheiro               | `bi-currency-dollar`      | Financeiro       |
+| 🔍 Pesquisa               | `bi-search`               | Buscar           |
+| 🔔 Notificação            | `bi-bell`                 | Notificações     |
+| 🏠 Casa                   | `bi-house`                | Dashboard        |
+| 📊 Gráfico                | `bi-bar-chart`            | Relatórios       |
+| 📈 Gráfico crescente      | `bi-graph-up`             | Relatórios       |
+| 📄 Documento              | `bi-file-earmark`         | Documentos       |
+| 📄 Documento texto        | `bi-file-text`            | Documentação     |
+| 📋 Lista                  | `bi-list`                 | Listas           |
+| ☰ Menu                    | `bi-list`                 | Menu mobile      |
+| 💾 Salvar                 | `bi-save`                 | Salvar           |
+| 👁️ Visualizar            | `bi-eye`                  | Ver detalhes     |
+| 🔗 Link                   | `bi-link-45deg`           | Relacionamento   |
+| 🔑 Chave                  | `bi-key`                  | Acesso/permissão |
+| 📧 E-mail                 | `bi-envelope`             | E-mail           |
+| 📞 Telefone               | `bi-telephone`            | Telefone         |
+| ⏰ Relógio                 | `bi-clock`                | Horário/status   |
+| ✔️ Check                  | `bi-check-lg`             | Confirmar        |
+| ❗ Alerta                  | `bi-exclamation-triangle` | Atenção          |
+| ℹ️ Informação             | `bi-info-circle`          | Informações      |

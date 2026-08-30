@@ -50,7 +50,7 @@
 
                     <div class="rounded-3 d-flex align-items-center justify-content-center"
                         style="width: 50px; height: 50px; background-color: #fff1e6;">
-                        <i class="fa-solid fa-file-invoice fs-5" style="color: #ff6500;"></i>
+                        <i class="bi-file-earmark fs-5" style="color: #ff6500;"></i>
                     </div>
 
                     <div>
@@ -73,12 +73,12 @@
             <div class="d-flex gap-2 mt-3 mt-md-0">
 
                 <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
-                    <i class="fa-solid fa-print me-2"></i>
+                    <i class="bi-printer me-2"></i>
                     Imprimir
                 </button>
 
                 <span class="badge text-bg-{{ $statusConfig['class'] }} d-flex align-items-center px-3">
-                    <i class="fa-solid {{ $statusConfig['icon'] }} me-2"></i>
+                    <i class="bi {{ $statusConfig['icon'] }} me-2"></i>
                     {{ strtoupper($statusConfig['label']) }}
                 </span>
 
@@ -98,7 +98,7 @@
                     <div class="card-header bg-white border-0 pt-4 px-4">
 
                         <h5 class="fw-bold mb-1">
-                            <i class="fa-solid fa-user me-2" style="color: #ff6500;"></i>
+                            <i class="bi-person me-2" style="color: #ff6500;"></i>
                             Cliente
                         </h5>
 
@@ -151,7 +151,7 @@
                     <div class="card-header bg-white border-0 pt-4 px-4">
 
                         <h5 class="fw-bold mb-1">
-                            <i class="fa-solid fa-car me-2" style="color: #ff6500;"></i>
+                            <i class="bi-car-front me-2" style="color: #ff6500;"></i>
                             Veículo
                         </h5>
 
@@ -222,7 +222,7 @@
 
                         <div class="rounded-3 d-flex align-items-center justify-content-center me-3"
                             style="width: 50px; height: 50px; background-color: #f1f3f5;">
-                            <i class="fa-solid fa-right-to-bracket text-secondary"></i>
+                            <i class="bi-arrow-bar-right text-secondary"></i>
                         </div>
 
                         <div>
@@ -252,7 +252,7 @@
 
                         <div class="rounded-3 d-flex align-items-center justify-content-center me-3"
                             style="width: 50px; height: 50px; background-color: #f1f3f5;">
-                            <i class="fa-solid fa-right-from-bracket text-secondary"></i>
+                            <i class="bi-arrow-bar-left text-secondary"></i>
                         </div>
 
                         <div>
@@ -282,7 +282,7 @@
 
                         <div class="rounded-3 d-flex align-items-center justify-content-center me-3"
                             style="width: 50px; height: 50px; background-color: #fff1e6;">
-                            <i class="fa-solid fa-dollar-sign" style="color: #ff6500;"></i>
+                            <i class="bi-currency-dollar" style="color: #ff6500;"></i>
                         </div>
 
                         <div>
@@ -312,7 +312,7 @@
             <div class="card-header bg-white border-0 pt-4 px-4">
 
                 <h5 class="fw-bold mb-1">
-                    <i class="fa-solid fa-clipboard-list me-2" style="color: #ff6500;"></i>
+                    <i class="bi-card-text me-2" style="color: #ff6500;"></i>
                     Descrição do serviço
                 </h5>
 
@@ -342,7 +342,7 @@
                     <div>
 
                         <h5 class="fw-bold mb-1">
-                            <i class="fa-solid fa-boxes-stacked me-2" style="color: #ff6500;"></i>
+                            <i class="bi-boxes me-2" style="color: #ff6500;"></i>
                             Serviços e produtos
                         </h5>
 
@@ -383,7 +383,7 @@
 
                     {{-- VOLTAR --}}
                     <a href="{{ route('service-orders.index') }}" class="btn btn-outline-secondary">
-                        <i class="fa-solid fa-arrow-left me-2"></i>
+                        <i class="bi-arrow-left me-2"></i>
                         Voltar para OS
                     </a>
 
@@ -397,7 +397,7 @@
                             @method('PUT')
 
                             <button type="submit" class="btn btn-warning w-100" @disabled($serviceOrder->status === 'finished')>
-                                <i class="fa-solid fa-lock me-2"></i>
+                                <i class="bi-lock me-2"></i>
                                 Finalizar OS
                             </button>
 
@@ -412,7 +412,7 @@
 
                             <button type="submit" class="btn btn-outline-danger" @disabled($serviceOrder->status === 'finished')
                                 onclick="return confirm('Tem certeza que deseja excluir esta ordem de serviço?')">
-                                <i class="fa-solid fa-trash me-2"></i>
+                                <i class="bi-trash me-2"></i>
                                 Excluir OS
                             </button>
 
