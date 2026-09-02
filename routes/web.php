@@ -6,6 +6,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
+use App\Livewire\ServiceOrder\Index;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,7 +22,7 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 Route::get('/register', [RegisterTenantController::class, 'create'])->name('register');
@@ -31,23 +32,23 @@ Route::get('/vehicles/create', function () {
     return view('vehicles.create');
 })->middleware(['auth'])->name('vehicles.create');
 
-Route::get('/customers/index', function() {
+Route::get('/customers/index', function () {
     return view('customers.index');
 })->middleware(['auth'])->name('customers.index');
 
 
 Route::middleware(['auth'])->group(function () {
-    
+
     Route::get('/service-orders/create', [ServiceOrderController::class, 'create'])->name('service-orders.create');
-    
+
     Route::get('/service-orders/index', [ServiceOrderController::class, 'index'])->name('service-orders.index');
 
     Route::post('/service-orders/store', [ServiceOrderController::class, 'store'])->name('service-orders.store');
-    
+
     Route::get('/service-orders/{id}', [ServiceOrderController::class, 'show'])->name('service-orders.show');
 
     Route::delete('/service-orders/{id}', [ServiceOrderController::class, 'destroy'])->name('service-orders.destroy');
-    
+
     Route::put('/service-orders/close/{id}', [ServiceOrderController::class, 'closeServiceOrder'])->name('service-orders.close');
 });
 

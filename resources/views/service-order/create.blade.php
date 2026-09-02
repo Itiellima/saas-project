@@ -13,7 +13,7 @@
 
                 <div class="rounded-3 d-flex align-items-center justify-content-center"
                     style="width: 50px; height: 50px; background-color: #fff1e6;">
-                    <i class="fa-solid fa-file-circle-plus fs-5" style="color: #ff6500;"></i>
+                    <i class="bi bi-clipboard-check fs-5" style="color: #ff6500;"></i>
                 </div>
 
                 <div>
@@ -44,7 +44,7 @@
                 <div class="card-header bg-white border-0 pt-4 px-4">
 
                     <h5 class="fw-bold mb-1">
-                        <i class="fa-solid fa-user me-2" style="color: #ff6500;"></i>
+                        <i class="bi bi-person me-2" style="color: #ff6500;"></i>
                         Informações do cliente
                     </h5>
 
@@ -69,7 +69,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-light border-end-0">
-                                    <i class="fa-solid fa-user text-secondary"></i>
+                                    <i class="bi bi-person text-secondary"></i>
                                 </span>
 
                                 <input type="text" id="customer_name" name="customer_name"
@@ -98,7 +98,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text bg-light border-end-0">
-                                    <i class="fa-solid fa-phone text-secondary"></i>
+                                    <i class="bi bi-phone text-secondary"></i>
                                 </span>
 
                                 <input type="text" id="customer_phone" name="customer_phone"
@@ -128,7 +128,7 @@
                 <div class="card-header bg-white border-0 pt-4 px-4">
 
                     <h5 class="fw-bold mb-1">
-                        <i class="fa-solid fa-car me-2" style="color: #ff6500;"></i>
+                        <i class="bi bi-car-front me-2" style="color: #ff6500;"></i>
                         Informações do veículo
                     </h5>
 
@@ -210,7 +210,7 @@
                 <div class="card-header bg-white border-0 pt-4 px-4">
 
                     <h5 class="fw-bold mb-1">
-                        <i class="fa-solid fa-calendar-days me-2" style="color: #ff6500;"></i>
+                        <i class="bi bi-calendar me-2" style="color: #ff6500;"></i>
                         Controle de entrada e saída
                     </h5>
 
@@ -267,7 +267,7 @@
                 <div class="card-header bg-white border-0 pt-4 px-4">
 
                     <h5 class="fw-bold mb-1">
-                        <i class="fa-solid fa-clipboard-list me-2" style="color: #ff6500;"></i>
+                        <i class="bi bi-clipboard me-2" style="color: #ff6500;"></i>
                         Descrição do serviço
                     </h5>
 
@@ -298,12 +298,12 @@
             <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mb-4">
 
                 <a href="{{ route('service-orders.index') }}" class="btn btn-outline-secondary px-4">
-                    <i class="fa-solid fa-arrow-left me-2"></i>
+                    <i class="bi bi-arrow-left me-2"></i>
                     Cancelar
                 </a>
 
                 <button type="submit" class="btn text-white fw-semibold px-4" style="background-color: #ff6500;">
-                    <i class="fa-solid fa-check me-2"></i>
+                    <i class="bi bi-check me-2"></i>
                     Criar Ordem de Serviço
                 </button>
 
