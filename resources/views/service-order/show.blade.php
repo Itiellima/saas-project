@@ -429,46 +429,6 @@
     </div>
 
 
-    @push('scripts')
-        <script>
-            document.addEventListener('livewire:init', () => {
-
-                function initItemSelect() {
-
-                    const select = document.querySelector('#item');
-
-                    if (!select) {
-                        return;
-                    }
-
-                    if (select.tomselect) {
-                        select.tomselect.destroy();
-                    }
-
-                    new TomSelect(select, {
-                        create: true,
-                        sortField: {
-                            field: 'text',
-                            direction: 'asc'
-                        }
-                    });
-
-                }
-
-
-                initItemSelect();
-
-
-                Livewire.on('item-added', () => {
-
-                    setTimeout(() => {
-                        initItemSelect();
-                    }, 50);
-
-                });
-
-            });
-        </script>
-    @endpush
+    
 
 @endsection
