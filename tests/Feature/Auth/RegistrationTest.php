@@ -1,7 +1,5 @@
 <?php
 
-use Livewire\Volt\Volt;
-
 test('registration screen can be rendered', function () {
     $response = $this->get('/register');
 
@@ -9,16 +7,26 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
-    $response = Volt::test('auth.register')
-        ->set('name', 'Test User')
-        ->set('email', 'test@example.com')
-        ->set('password', 'password')
-        ->set('password_confirmation', 'password')
-        ->call('register');
+    $response =$this->post('/register', [
+        'tenant_name' => 'Test Tenant',
+        'user_name' => 'Test User',
+        'user_email' => 'test@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password'
+    ]);
 
-    $response
-        ->assertHasNoErrors()
-        ->assertRedirect(route('dashboard', absolute: false));
+    $response->assertSessionHasNoErrors();
+    $response->assertRedirect(route('dashboard', absolute: false));
+
+    $this->assertDatabaseHas('tenants', [
+        'name' => 'Test Tenant',
+    ]);
+
+    $this->assertDatabaseHas('users', [
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]);
+
 
     $this->assertAuthenticated();
 });
