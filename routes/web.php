@@ -52,10 +52,17 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/service-orders/close/{id}', [ServiceOrderController::class, 'closeServiceOrder'])->name('service-orders.close');
 });
 
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/items/index', [ItemController::class, 'index'])->name('items.index');
-Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
-Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
-Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('items.edit');
-Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('items.update');
-Route::delete('/items/destroy/{id}', [ItemController::class, 'destroy'])->name('items.destroy');
+    Route::get('/items/index', [ItemController::class, 'index'])->name('items.index');
+
+    Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+
+    Route::post('/items/store', [ItemController::class, 'store'])->name('items.store');
+
+    Route::get('/items/edit/{id}', [ItemController::class, 'edit'])->name('items.edit');
+
+    Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('items.update');
+
+    Route::delete('/items/destroy/{id}', [ItemController::class, 'destroy'])->name('items.destroy');
+});

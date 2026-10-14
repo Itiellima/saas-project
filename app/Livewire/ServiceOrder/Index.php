@@ -23,8 +23,10 @@ class Index extends Component
             ->where('tenant_id', Auth::user()->tenant_id)
 
             ->when($this->search, function ($query) {
-                $query->where('customer_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('vehicle_plate', 'like', '%' . $this->search . '%');
+                $query->where(function ($q) {
+                    $q->where('customer_name', 'like', '%' . $this->search . '%')
+                        ->orWhere('vehicle_plate', 'like', '%' . $this->search . '%');
+                });
             })
 
             ->when($this->status, function ($query) {
