@@ -6,6 +6,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ProfileController;
 use App\Livewire\ServiceOrder\Index;
 
 Route::get('/', function () {
@@ -65,4 +66,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('items.update');
 
     Route::delete('/items/destroy/{id}', [ItemController::class, 'destroy'])->name('items.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
 });
