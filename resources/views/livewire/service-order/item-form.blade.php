@@ -46,7 +46,7 @@
 
                 <div class="col-12 col-md-10 col-lg-11">
 
-                    <div wire:ignore>
+                    <div wire:ignore.self>
 
                         <select wire:model="item_id" id="item" placeholder="Select an item" class="form-select">
 
@@ -62,6 +62,8 @@
                                     {{ ucfirst($item->type) }}
                                     —
                                     R$ {{ number_format($item->sale_price, 2, ',', '.') }}
+                                    —
+                                    {{ $item->stock }} in stock
 
                                 </option>
                             @endforeach
@@ -158,5 +160,48 @@
         </div>
 
     </div>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('livewire:init', () => {
+
+                function initItemSelect() {
+
+                    const select = document.querySelector('#item');
+
+                    if (!select) {
+                        return;
+                    }
+
+                    if (select.tomselect) {
+                        select.tomselect.destroy();
+                    }
+
+                    new TomSelect(select, {
+                        create: true,
+                        sortField: {
+                            field: 'text',
+                            direction: 'asc'
+                        }
+                    });
+
+                }
+
+
+                initItemSelect();
+
+
+                Livewire.on('item-added', () => {
+
+                    setTimeout(() => {
+                        initItemSelect();
+                    }, 50);
+
+                });
+
+            });
+        </script>
+    @endpush
+
 
 </div>

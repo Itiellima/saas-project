@@ -46,3 +46,19 @@
 | ✔️ Check                  | `bi-check-lg`             | Confirmar        |
 | ❗ Alerta                  | `bi-exclamation-triangle` | Atenção          |
 | ℹ️ Informação             | `bi-info-circle`          | Informações      |
+
+
+para iniciar o projeto:
+
+git clone <repositorio>
+cd saas-project
+
+composer install
+npm install
+
+copy .env.example .env
+php artisan key:generate
+
+php artisan migrate
+
+npm run dev

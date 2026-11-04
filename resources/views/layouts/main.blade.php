@@ -25,6 +25,7 @@
     {{-- Tom Select --}}
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.6.1/dist/css/tom-select.css" rel="stylesheet">
 
+    @assyncSelectStyles
 </head>
 
 
