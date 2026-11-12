@@ -91,6 +91,8 @@ class ItemForm extends Component
             }
 
             $this->serviceOrder->recalculateTotal();
+
+            $this->serviceOrder->markInProgress();
         });
 
 

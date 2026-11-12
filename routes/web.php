@@ -57,6 +57,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/service-orders/close/{id}', [ServiceOrderController::class, 'closeServiceOrder'])->name('service-orders.close');
 
     Route::put('/service-orders/reopen/{id}', [ServiceOrderController::class, 'reopen'])->name('service-orders.reopen');
+
+    Route::put('/service-orders/cancel/{id}', [ServiceOrderController::class, 'cancel'])->name('service-orders.cancel');
 });
 
 Route::middleware(['auth'])->group(function () {

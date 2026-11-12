@@ -25,6 +25,8 @@ class ServiceOrder extends Model
         'finished_at',
         'reopened_at',
         'reopen_reason',
+        'cancelled_at',
+        'cancel_reason',
         'description',
         'total',
     ];
@@ -34,6 +36,7 @@ class ServiceOrder extends Model
         'vehicle_leave' => 'datetime',
         'finished_at' => 'datetime',
         'reopened_at' => 'datetime',
+        'cancelled_at' => 'datetime',
     ];
 
     public function tenant()
@@ -67,6 +70,33 @@ class ServiceOrder extends Model
     public function isLocked(): bool
     {
         return in_array($this->status, ['finished', 'cancelled']);
+    }
+
+    /**
+     * Cor, ícone e nome do status para exibir na tela.
+     *
+     * @return array{class: string, icon: string, label: string}
+     */
+    public function statusConfig(): array
+    {
+        return match ($this->status) {
+            'open' => ['class' => 'primary', 'icon' => 'bi-folder2-open', 'label' => 'Aberta'],
+            'in_progress' => ['class' => 'warning', 'icon' => 'bi-arrow-repeat', 'label' => 'Em andamento'],
+            'finished' => ['class' => 'success', 'icon' => 'bi-check-circle', 'label' => 'Finalizada'],
+            'cancelled' => ['class' => 'danger', 'icon' => 'bi-x-circle', 'label' => 'Cancelada'],
+            default => ['class' => 'secondary', 'icon' => 'bi-question-circle', 'label' => 'Desconhecido'],
+        };
+    }
+
+    /**
+     * Uma OS aberta passa para "em andamento" quando recebe o primeiro item.
+     * O status não volta sozinho se os itens forem removidos.
+     */
+    public function markInProgress(): void
+    {
+        if ($this->status === 'open') {
+            $this->update(['status' => 'in_progress']);
+        }
     }
 
 }

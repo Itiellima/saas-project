@@ -7,40 +7,6 @@
 
     <div class="container-fluid px-3 px-md-4 py-4">
 
-        @php
-            $statusConfig = match ($serviceOrder->status) {
-                'open' => [
-                    'class' => 'primary',
-                    'icon' => 'bi-folder2-open',
-                    'label' => 'Aberta',
-                ],
-
-                'in_progress' => [
-                    'class' => 'warning',
-                    'icon' => 'bi-arrow-repeat',
-                    'label' => 'Em andamento',
-                ],
-
-                'finished' => [
-                    'class' => 'success',
-                    'icon' => 'bi-check-circle',
-                    'label' => 'Finalizada',
-                ],
-
-                'cancelled' => [
-                    'class' => 'danger',
-                    'icon' => 'bi-x-circle',
-                    'label' => 'Cancelada',
-                ],
-
-                default => [
-                    'class' => 'secondary',
-                    'icon' => 'fa-question',
-                    'label' => 'Desconhecido',
-                ],
-            };
-        @endphp
-
 
         {{-- CABEÇALHO --}}
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
@@ -85,14 +51,27 @@
                     Imprimir
                 </button>
 
-                <span class="badge text-bg-{{ $statusConfig['class'] }} d-flex align-items-center px-3">
-                    <i class="bi {{ $statusConfig['icon'] }} me-2"></i>
-                    {{ strtoupper($statusConfig['label']) }}
-                </span>
+                <livewire:service-order.status-badge :serviceOrder="$serviceOrder" />
 
             </div>
 
         </div>
+
+
+        {{-- AVISO DE CANCELAMENTO --}}
+        @if ($serviceOrder->status === 'cancelled')
+            <div class="alert alert-danger d-flex align-items-start gap-2 mb-4">
+                <i class="bi bi-x-circle-fill fs-5"></i>
+                <div>
+                    <strong>
+                        Esta OS foi cancelada{{ $serviceOrder->cancelled_at ? ' em ' . $serviceOrder->cancelled_at->format('d/m/Y H:i') : '' }}.
+                    </strong>
+                    @if ($serviceOrder->cancel_reason)
+                        <div>Motivo: {{ $serviceOrder->cancel_reason }}</div>
+                    @endif
+                </div>
+            </div>
+        @endif
 
 
         {{-- AVISO DE REABERTURA --}}
@@ -417,35 +396,45 @@
                                 <i class="bi-unlock me-2"></i>
                                 Reabrir OS
                             </button>
-                        @else
+                        @elseif (! $serviceOrder->isLocked())
                             {{-- FECHAR --}}
                             <form action="{{ route('service-orders.close', $serviceOrder->id) }}" method="POST">
 
                                 @csrf
                                 @method('PUT')
 
-                                <button type="submit" class="btn btn-warning w-100" @disabled($serviceOrder->isLocked())>
+                                <button type="submit" class="btn btn-warning w-100">
                                     <i class="bi-lock me-2"></i>
                                     Finalizar OS
                                 </button>
 
                             </form>
+
+
+                            {{-- CANCELAR --}}
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#cancelModal">
+                                <i class="bi-x-circle me-2"></i>
+                                Cancelar OS
+                            </button>
                         @endif
 
 
-                        {{-- EXCLUIR --}}
-                        <form action="{{ route('service-orders.destroy', $serviceOrder->id) }}" method="POST">
+                        {{-- EXCLUIR: só OS criada por engano, ainda sem itens --}}
+                        @if (! $serviceOrder->isLocked() && $serviceOrder->items()->doesntExist())
+                            <form action="{{ route('service-orders.destroy', $serviceOrder->id) }}" method="POST">
 
-                            @csrf
-                            @method('DELETE')
+                                @csrf
+                                @method('DELETE')
 
-                            <button type="submit" class="btn btn-outline-danger" @disabled($serviceOrder->isLocked())
-                                onclick="return confirm('Tem certeza que deseja excluir esta ordem de serviço?')">
-                                <i class="bi-trash me-2"></i>
-                                Excluir OS
-                            </button>
+                                <button type="submit" class="btn btn-outline-danger w-100"
+                                    onclick="return confirm('Tem certeza que deseja excluir esta ordem de serviço?')">
+                                    <i class="bi-trash me-2"></i>
+                                    Excluir OS
+                                </button>
 
-                        </form>
+                            </form>
+                        @endif
 
                     </div>
 
@@ -546,15 +535,113 @@
         </div>
 
 
-        @push('scripts')
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
+    @endif
 
-                    const reason = document.getElementById('reopen_reason');
-                    const confirmBox = document.getElementById('reopen_confirm');
-                    const submit = document.getElementById('reopen_submit');
 
-                    // Só libera o botão com o motivo preenchido e a caixa marcada
+    {{-- MODAL CANCELAR --}}
+    @unless ($serviceOrder->isLocked())
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <form action="{{ route('service-orders.cancel', $serviceOrder->id) }}" method="POST"
+                    class="modal-content">
+
+                    @csrf
+                    @method('PUT')
+
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="cancelModalLabel">
+                            <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                            Cancelar OS #{{ $serviceOrder->id }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+
+
+                    <div class="modal-body">
+
+                        <div class="alert alert-danger">
+                            <strong>Atenção: o cancelamento não pode ser desfeito.</strong>
+
+                            <ul class="mb-0 mt-2 ps-3">
+                                <li>A OS ficará <strong>travada</strong>: não será possível editar, adicionar itens nem reabrir.</li>
+                                <li>Os <strong>produtos</strong> desta OS voltarão ao estoque.</li>
+                                <li>O valor <strong>não entrará no faturamento</strong>.</li>
+                                <li>O cancelamento e o motivo ficarão <strong>registrados</strong> nesta OS.</li>
+                            </ul>
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label for="cancel_reason" class="form-label fw-semibold">
+                                Motivo do cancelamento
+                            </label>
+
+                            <textarea id="cancel_reason" name="cancel_reason" rows="3" minlength="10" maxlength="255" required
+                                class="form-control @error('cancel_reason') is-invalid @enderror"
+                                placeholder="Ex.: cliente desistiu do serviço">{{ old('cancel_reason') }}</textarea>
+
+                            @error('cancel_reason')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
+
+                        <div class="form-check">
+
+                            <input type="checkbox" id="cancel_confirm" name="cancel_confirm" value="1" required
+                                class="form-check-input @error('cancel_confirm') is-invalid @enderror">
+
+                            <label for="cancel_confirm" class="form-check-label">
+                                Entendo que o cancelamento é definitivo e não pode ser desfeito.
+                            </label>
+
+                            @error('cancel_confirm')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Voltar
+                        </button>
+
+                        <button type="submit" id="cancel_submit" class="btn btn-danger" disabled>
+                            <i class="bi-x-circle me-2"></i>
+                            Cancelar definitivamente
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    @endunless
+
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                // Modais de reabrir e cancelar: só liberam o botão com o motivo preenchido e a caixa marcada
+                ['reopen', 'cancel'].forEach((prefix) => {
+
+                    const reason = document.getElementById(prefix + '_reason');
+                    const confirmBox = document.getElementById(prefix + '_confirm');
+                    const submit = document.getElementById(prefix + '_submit');
+
+                    if (!reason || !confirmBox || !submit) {
+                        return;
+                    }
+
                     const toggleSubmit = () => {
                         submit.disabled = !(confirmBox.checked && reason.value.trim().length >= 10);
                     };
@@ -562,15 +649,19 @@
                     reason.addEventListener('input', toggleSubmit);
                     confirmBox.addEventListener('change', toggleSubmit);
                     toggleSubmit();
-
-                    // Reabre o modal se a validação falhou
-                    @if ($errors->has('reopen_reason') || $errors->has('reopen_confirm'))
-                        bootstrap.Modal.getOrCreateInstance(document.getElementById('reopenModal')).show();
-                    @endif
-
                 });
-            </script>
-        @endpush
-    @endif
+
+                // Reabre o modal se a validação falhou
+                @if ($errors->has('reopen_reason') || $errors->has('reopen_confirm'))
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById('reopenModal')).show();
+                @endif
+
+                @if ($errors->has('cancel_reason') || $errors->has('cancel_confirm'))
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById('cancelModal')).show();
+                @endif
+
+            });
+        </script>
+    @endpush
 
 @endsection
