@@ -73,6 +73,13 @@
 
             <div class="d-flex gap-2 mt-3 mt-md-0">
 
+                @unless ($serviceOrder->isLocked())
+                    <a href="{{ route('service-orders.edit', $serviceOrder->id) }}" class="btn btn-outline-secondary">
+                        <i class="bi-pencil me-2"></i>
+                        Editar
+                    </a>
+                @endunless
+
                 <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
                     <i class="bi-printer me-2"></i>
                     Imprimir

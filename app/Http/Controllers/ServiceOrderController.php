@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ServiceOrderRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\ServiceOrder;
@@ -22,22 +23,14 @@ class ServiceOrderController extends Controller
 
     public function create()
     {
-        return view('service-order.create');
+        $serviceOrder = null; // O mesmo formulário serve para criar e editar
+
+        return view('service-order.create', compact('serviceOrder'));
     }
 
-    public function store(Request $request)
+    public function store(ServiceOrderRequest $request)
     {
-        $validated = $request->validate([
-            'customer_name' => ['required', 'string', 'max:255'],
-            'customer_phone' => ['nullable', 'string', 'max:20'],
-            'vehicle_plate' => ['nullable', 'string', 'max:20'],
-            'vehicle_model' => ['nullable', 'string', 'max:50'],
-            'vehicle_km' => ['nullable', 'integer'],
-            'vehicle_enter' => ['nullable', 'date'],
-            'vehicle_leave' => ['nullable', 'date', 'after_or_equal:vehicle_enter'],
-            'description' => ['nullable', 'string'],
-        ]);
-
+        $validated = $request->validated();
 
         $serviceOrder = ServiceOrder::create([
             ...$validated,
@@ -47,6 +40,35 @@ class ServiceOrderController extends Controller
 
 
         return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Ordem de serviço criada com sucesso.');
+    }
+
+    public function edit($id)
+    {
+        $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
+
+        if ($serviceOrder->isLocked()) {
+            return redirect()->route('service-orders.show', $serviceOrder->id)->with('error', 'Esta OS está finalizada ou cancelada e não pode ser editada. Reabra a OS para corrigir.');
+        }
+
+        return view('service-order.create', compact('serviceOrder'));
+    }
+
+    public function update(ServiceOrderRequest $request, $id)
+    {
+        $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
+
+        if ($serviceOrder->isLocked()) {
+            return redirect()->route('service-orders.show', $serviceOrder->id)->with('error', 'Esta OS está finalizada ou cancelada e não pode ser editada. Reabra a OS para corrigir.');
+        }
+
+        $validated = $request->validated();
+
+        $serviceOrder->update([
+            ...$validated,
+            'vehicle_enter' => $validated['vehicle_enter'] ?? $serviceOrder->vehicle_enter,
+        ]);
+
+        return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Ordem de serviço atualizada com sucesso.');
     }
 
     public function show($id)
@@ -83,6 +105,8 @@ class ServiceOrderController extends Controller
         $serviceOrder->update([
             'status' => 'finished',
             'finished_at' => now(),
+            // O carro sai quando a OS é finalizada, se a saída não foi informada antes
+            'vehicle_leave' => $serviceOrder->vehicle_leave ?? now(),
         ]);
 
         return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Ordem de serviço finalizada com sucesso.');
