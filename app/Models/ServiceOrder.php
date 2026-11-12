@@ -22,6 +22,9 @@ class ServiceOrder extends Model
         'vehicle_enter',
         'vehicle_leave',
         'status',
+        'finished_at',
+        'reopened_at',
+        'reopen_reason',
         'description',
         'total',
     ];
@@ -29,6 +32,8 @@ class ServiceOrder extends Model
     protected $casts = [
         'vehicle_enter' => 'datetime',
         'vehicle_leave' => 'datetime',
+        'finished_at' => 'datetime',
+        'reopened_at' => 'datetime',
     ];
 
     public function tenant()
@@ -54,6 +59,14 @@ class ServiceOrder extends Model
     public function recalculateTotal(): void
     {
         $this->update(['total' => $this->items()->sum('total')]);
+    }
+
+    /**
+     * Finished or cancelled orders cannot have items, values or data changed.
+     */
+    public function isLocked(): bool
+    {
+        return in_array($this->status, ['finished', 'cancelled']);
     }
 
 }

@@ -87,6 +87,20 @@
         </div>
 
 
+        {{-- AVISO DE REABERTURA --}}
+        @if ($serviceOrder->reopened_at)
+            <div class="alert alert-warning d-flex align-items-start gap-2 mb-4">
+                <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                <div>
+                    <strong>
+                        Esta OS foi reaberta em {{ $serviceOrder->reopened_at->format('d/m/Y H:i') }}.
+                    </strong>
+                    <div>Motivo: {{ $serviceOrder->reopen_reason }}</div>
+                </div>
+            </div>
+        @endif
+
+
         {{-- INFORMAÇÕES PRINCIPAIS --}}
         <div class="row g-4 mb-4">
 
@@ -357,7 +371,7 @@
 
             <div class="card-body p-4">
 
-                <fieldset @disabled($serviceOrder->status === 'finished')>
+                <fieldset @disabled($serviceOrder->isLocked())>
 
                     <livewire:service-order.item-form :serviceOrder="$serviceOrder" />
 
@@ -388,18 +402,27 @@
 
                     <div class="d-flex flex-column flex-sm-row gap-2">
 
-                        {{-- FECHAR --}}
-                        <form action="{{ route('service-orders.close', $serviceOrder->id) }}" method="POST">
-
-                            @csrf
-                            @method('PUT')
-
-                            <button type="submit" class="btn btn-warning w-100" @disabled($serviceOrder->status === 'finished')>
-                                <i class="bi-lock me-2"></i>
-                                Finalizar OS
+                        @if ($serviceOrder->status === 'finished')
+                            {{-- REABRIR --}}
+                            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                                data-bs-target="#reopenModal">
+                                <i class="bi-unlock me-2"></i>
+                                Reabrir OS
                             </button>
+                        @else
+                            {{-- FECHAR --}}
+                            <form action="{{ route('service-orders.close', $serviceOrder->id) }}" method="POST">
 
-                        </form>
+                                @csrf
+                                @method('PUT')
+
+                                <button type="submit" class="btn btn-warning w-100" @disabled($serviceOrder->isLocked())>
+                                    <i class="bi-lock me-2"></i>
+                                    Finalizar OS
+                                </button>
+
+                            </form>
+                        @endif
 
 
                         {{-- EXCLUIR --}}
@@ -408,7 +431,7 @@
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit" class="btn btn-outline-danger" @disabled($serviceOrder->status === 'finished')
+                            <button type="submit" class="btn btn-outline-danger" @disabled($serviceOrder->isLocked())
                                 onclick="return confirm('Tem certeza que deseja excluir esta ordem de serviço?')">
                                 <i class="bi-trash me-2"></i>
                                 Excluir OS
@@ -427,6 +450,119 @@
     </div>
 
 
-    
+    {{-- MODAL REABRIR --}}
+    @if ($serviceOrder->status === 'finished')
+        <div class="modal fade" id="reopenModal" tabindex="-1" aria-labelledby="reopenModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <form action="{{ route('service-orders.reopen', $serviceOrder->id) }}" method="POST"
+                    class="modal-content">
+
+                    @csrf
+                    @method('PUT')
+
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="reopenModalLabel">
+                            <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+                            Reabrir OS #{{ $serviceOrder->id }}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+
+
+                    <div class="modal-body">
+
+                        <div class="alert alert-danger">
+                            <strong>Atenção: esta OS já foi finalizada
+                                {{ $serviceOrder->finished_at ? 'em ' . $serviceOrder->finished_at->format('d/m/Y H:i') : '' }}.</strong>
+
+                            <ul class="mb-0 mt-2 ps-3">
+                                <li>Ela voltará a ficar <strong>editável</strong>: itens e valores poderão ser alterados.</li>
+                                <li>O total pode ficar <strong>diferente do que já foi cobrado</strong> ou entregue ao cliente.</li>
+                                <li>A reabertura e o motivo ficarão <strong>registrados</strong> e visíveis nesta OS.</li>
+                            </ul>
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <label for="reopen_reason" class="form-label fw-semibold">
+                                Motivo da reabertura
+                            </label>
+
+                            <textarea id="reopen_reason" name="reopen_reason" rows="3" minlength="10" maxlength="255" required
+                                class="form-control @error('reopen_reason') is-invalid @enderror"
+                                placeholder="Ex.: item esquecido na finalização">{{ old('reopen_reason') }}</textarea>
+
+                            @error('reopen_reason')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
+
+                        <div class="form-check">
+
+                            <input type="checkbox" id="reopen_confirm" name="reopen_confirm" value="1" required
+                                class="form-check-input @error('reopen_confirm') is-invalid @enderror">
+
+                            <label for="reopen_confirm" class="form-check-label">
+                                Entendo que esta OS já foi finalizada e que a reabertura ficará registrada.
+                            </label>
+
+                            @error('reopen_confirm')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" id="reopen_submit" class="btn btn-danger" disabled>
+                            <i class="bi-unlock me-2"></i>
+                            Reabrir mesmo assim
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        @push('scripts')
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+
+                    const reason = document.getElementById('reopen_reason');
+                    const confirmBox = document.getElementById('reopen_confirm');
+                    const submit = document.getElementById('reopen_submit');
+
+                    // Só libera o botão com o motivo preenchido e a caixa marcada
+                    const toggleSubmit = () => {
+                        submit.disabled = !(confirmBox.checked && reason.value.trim().length >= 10);
+                    };
+
+                    reason.addEventListener('input', toggleSubmit);
+                    confirmBox.addEventListener('change', toggleSubmit);
+                    toggleSubmit();
+
+                    // Reabre o modal se a validação falhou
+                    @if ($errors->has('reopen_reason') || $errors->has('reopen_confirm'))
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('reopenModal')).show();
+                    @endif
+
+                });
+            </script>
+        @endpush
+    @endif
 
 @endsection

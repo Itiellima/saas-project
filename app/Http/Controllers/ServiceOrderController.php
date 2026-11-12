@@ -62,7 +62,11 @@ class ServiceOrderController extends Controller
     public function destroy($id)
     {
         $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
-        
+
+        if ($serviceOrder->isLocked()) {
+            return redirect()->route('service-orders.show', $serviceOrder->id)->with('error', 'Esta OS está finalizada ou cancelada e não pode ser excluída.');
+        }
+
         $serviceOrder->delete();
 
         return redirect()->route('service-orders.index')->with('success', 'Service order deleted successfully.');
@@ -72,13 +76,42 @@ class ServiceOrderController extends Controller
     {
         $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
 
-        if ($serviceOrder->status === 'finished') {
-            return redirect()->route('service-orders.show', $serviceOrder->id)->with('error', 'Service order is already finished.');
+        if ($serviceOrder->isLocked()) {
+            return redirect()->route('service-orders.show', $serviceOrder->id)->with('error', 'Esta OS já está finalizada ou cancelada.');
         }
 
-        $serviceOrder->status = 'finished';
-        $serviceOrder->save();
+        $serviceOrder->update([
+            'status' => 'finished',
+            'finished_at' => now(),
+        ]);
 
         return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Service order finished successfully.');
+    }
+
+    public function reopen(Request $request, $id)
+    {
+        $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);
+
+        if ($serviceOrder->status !== 'finished') {
+            return redirect()->route('service-orders.show', $serviceOrder->id)->with('error', 'Apenas OS finalizadas podem ser reabertas.');
+        }
+
+        $validated = $request->validate([
+            'reopen_reason' => ['required', 'string', 'min:10', 'max:255'],
+            'reopen_confirm' => ['accepted'],
+        ], [
+            'reopen_reason.required' => 'Informe o motivo da reabertura.',
+            'reopen_reason.min' => 'O motivo deve ter pelo menos 10 caracteres.',
+            'reopen_confirm.accepted' => 'Confirme que entende as consequências de reabrir a OS.',
+        ]);
+
+        $serviceOrder->update([
+            'status' => 'open',
+            'finished_at' => null,
+            'reopened_at' => now(),
+            'reopen_reason' => $validated['reopen_reason'],
+        ]);
+
+        return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'OS reaberta. A reabertura foi registrada.');
     }
 }

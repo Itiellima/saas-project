@@ -30,6 +30,9 @@ class ItemList extends Component
 
     public function deleteItemList($id)
     {
+        // A tela já desabilita o botão; isto impede a chamada direta pelo navegador
+        abort_if($this->serviceOrder->fresh()->isLocked(), 403, 'Esta OS está finalizada ou cancelada e não pode ser alterada.');
+
         DB::transaction(function () use ($id) {
 
             // Recupera o item da ordem de serviço (só desta OS, o $id vem do navegador)

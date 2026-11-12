@@ -24,6 +24,11 @@ class ItemForm extends Component
 
     public function save()
     {
+        if ($this->serviceOrder->fresh()->isLocked()) {
+            $this->addError('item_id', 'Esta OS está finalizada ou cancelada e não pode ser alterada.');
+            return;
+        }
+
         $this->validate([
             'item_id' => ['required', 'exists:items,id'],
             'quantity' => ['required', 'integer', 'min:1'],

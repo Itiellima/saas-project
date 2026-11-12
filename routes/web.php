@@ -51,6 +51,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/service-orders/{id}', [ServiceOrderController::class, 'destroy'])->name('service-orders.destroy');
 
     Route::put('/service-orders/close/{id}', [ServiceOrderController::class, 'closeServiceOrder'])->name('service-orders.close');
+
+    Route::put('/service-orders/reopen/{id}', [ServiceOrderController::class, 'reopen'])->name('service-orders.reopen');
 });
 
 Route::middleware(['auth'])->group(function () {
