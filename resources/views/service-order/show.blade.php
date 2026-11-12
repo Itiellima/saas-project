@@ -46,10 +46,11 @@
                     </a>
                 @endunless
 
-                <button type="button" class="btn btn-outline-secondary" onclick="window.print()">
+                <a href="{{ route('service-orders.print', $serviceOrder->id) }}" target="_blank" rel="noopener"
+                    class="btn btn-outline-secondary">
                     <i class="bi-printer me-2"></i>
                     Imprimir
-                </button>
+                </a>
 
                 <livewire:service-order.status-badge :serviceOrder="$serviceOrder" />
 

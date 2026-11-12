@@ -83,6 +83,15 @@ class ServiceOrderController extends Controller
         return view('service-order.show', compact('serviceOrder', 'items'));
     }
 
+    public function print($id)
+    {
+        $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)
+            ->with(['tenant', 'items' => fn ($query) => $query->oldest()])
+            ->findOrFail($id);
+
+        return view('service-order.print', compact('serviceOrder'));
+    }
+
     public function destroy($id)
     {
         $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)->findOrFail($id);

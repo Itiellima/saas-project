@@ -50,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/service-orders/update/{id}', [ServiceOrderController::class, 'update'])->name('service-orders.update');
 
+    Route::get('/service-orders/{id}/print', [ServiceOrderController::class, 'print'])->name('service-orders.print');
+
     Route::get('/service-orders/{id}', [ServiceOrderController::class, 'show'])->name('service-orders.show');
 
     Route::delete('/service-orders/{id}', [ServiceOrderController::class, 'destroy'])->name('service-orders.destroy');
