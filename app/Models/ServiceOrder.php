@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceOrder extends Model
 {
-    //
+    use HasFactory;
+
     protected $fillable = [
         'tenant_id',
         'customer_id',
@@ -49,5 +51,9 @@ class ServiceOrder extends Model
         return $this->hasMany(ServiceOrderItem::class);
     }
 
+    public function recalculateTotal(): void
+    {
+        $this->update(['total' => $this->items()->sum('total')]);
+    }
 
 }

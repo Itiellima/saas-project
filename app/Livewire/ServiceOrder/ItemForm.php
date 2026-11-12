@@ -79,6 +79,8 @@ class ItemForm extends Component
 
             // Atualiza o estoque do item
             $item->decrement('stock', $this->quantity);
+
+            $this->serviceOrder->recalculateTotal();
         });
 
 

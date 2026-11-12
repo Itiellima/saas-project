@@ -54,7 +54,11 @@ class ItemList extends Component
 
             // Exclui o item da ordem de serviço
             $serviceOrderItem->delete();
+
+            $this->serviceOrder->recalculateTotal();
         });
+
+        $this->dispatch('item-removed');
     }
 
     public function render()
