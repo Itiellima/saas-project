@@ -32,25 +32,27 @@ class ItemList extends Component
     {
         DB::transaction(function () use ($id) {
 
-            // Recupera o item da ordem de serviço
-            $serviceOrderItem = ServiceOrderItem::findOrFail($id);
+            // Recupera o item da ordem de serviço (só desta OS, o $id vem do navegador)
+            $serviceOrderItem = $this->serviceOrder->items()->findOrFail($id);
 
-            // Recupera o item correspondente
-            $item = Item::findOrFail($serviceOrderItem->item_id);
+            // Recupera o item correspondente (pode ter sido excluído do cadastro)
+            $item = Item::where('tenant_id', Auth::user()->tenant_id)
+                ->find($serviceOrderItem->item_id);
 
-            // Cria o movimento de estoque
-            StockMovement::create([
-                'tenant_id' => Auth::user()->tenant_id,
-                'item_id' => $item->id,
-                'service_order_id' => $serviceOrderItem->service_order_id,
-                'quantity' => $serviceOrderItem->quantity,
-                'type' => 'in',
-                'reason' => 'Entrada de volta para estoque após exclusão do item da ordem de serviço #' . $this->serviceOrder->id,
-            ]);
+            if ($item && $item->type === 'product') {
+                // Cria o movimento de estoque
+                StockMovement::create([
+                    'tenant_id' => Auth::user()->tenant_id,
+                    'item_id' => $item->id,
+                    'service_order_id' => $serviceOrderItem->service_order_id,
+                    'quantity' => $serviceOrderItem->quantity,
+                    'type' => 'in',
+                    'reason' => 'Entrada de volta para estoque após exclusão do item da ordem de serviço #' . $this->serviceOrder->id,
+                ]);
 
-            // Atualiza o estoque do item
-            $item->increment('stock', $serviceOrderItem->quantity);
-            $item->save();
+                // Atualiza o estoque do item
+                $item->increment('stock', $serviceOrderItem->quantity);
+            }
 
             // Exclui o item da ordem de serviço
             $serviceOrderItem->delete();

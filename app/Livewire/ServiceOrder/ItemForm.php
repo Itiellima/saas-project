@@ -7,6 +7,7 @@ use App\Models\ServiceOrder;
 use App\Models\ServiceOrderItem;
 use App\Models\StockMovement;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
@@ -34,7 +35,8 @@ class ItemForm extends Component
             ->findOrFail($this->item_id);
 
         // Verifica se a quantidade solicitada é maior do que a quantidade disponivel em estoque
-        if ($item->stock < $this->quantity) {
+        // Serviços não têm estoque
+        if ($item->type === 'product' && $item->stock < $this->quantity) {
             $this->addError('quantity', 'A quantidade solicitada é maior do que a quantidade disponível em estoque.');
             return;
         }
@@ -67,18 +69,20 @@ class ItemForm extends Component
 
             ]);
 
-            // Cria o movimento de estoque
-            StockMovement::create([
-                'tenant_id' => Auth::user()->tenant_id,
-                'item_id' => $item->id,
-                'service_order_id' => $serviceOrderItem->service_order_id,
-                'quantity' => $this->quantity,
-                'type' => 'out',
-                'reason' => 'Saída para ordem de serviço #' . $this->serviceOrder->id,
-            ]);
+            if ($item->type === 'product') {
+                // Cria o movimento de estoque
+                StockMovement::create([
+                    'tenant_id' => Auth::user()->tenant_id,
+                    'item_id' => $item->id,
+                    'service_order_id' => $serviceOrderItem->service_order_id,
+                    'quantity' => $this->quantity,
+                    'type' => 'out',
+                    'reason' => 'Saída para ordem de serviço #' . $this->serviceOrder->id,
+                ]);
 
-            // Atualiza o estoque do item
-            $item->decrement('stock', $this->quantity);
+                // Atualiza o estoque do item
+                $item->decrement('stock', $this->quantity);
+            }
 
             $this->serviceOrder->recalculateTotal();
         });
