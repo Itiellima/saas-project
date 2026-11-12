@@ -33,25 +33,16 @@ class ServiceOrderController extends Controller
             'vehicle_plate' => ['nullable', 'string', 'max:20'],
             'vehicle_model' => ['nullable', 'string', 'max:50'],
             'vehicle_km' => ['nullable', 'integer'],
-            'vehicle_leave' => ['nullable', 'date'],
+            'vehicle_enter' => ['nullable', 'date'],
+            'vehicle_leave' => ['nullable', 'date', 'after_or_equal:vehicle_enter'],
             'description' => ['nullable', 'string'],
         ]);
 
 
         $serviceOrder = ServiceOrder::create([
+            ...$validated,
             'tenant_id' => Auth::user()->tenant_id,
-
-            'customer_name' => $validated['customer_name'],
-            'customer_phone' => $validated['customer_phone'],
-
-            'vehicle_plate' => $validated['vehicle_plate'],
-            'vehicle_model' => $validated['vehicle_model'],
-            'vehicle_km' => $validated['vehicle_km'],
-
             'vehicle_enter' => $validated['vehicle_enter'] ?? now(),
-            'vehicle_leave' => $validated['vehicle_leave'],
-
-            'description' => $validated['description'],
         ]);
 
 
