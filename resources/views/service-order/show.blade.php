@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('title', 'OS #' . $serviceOrder->id . ' - OficinaOS')
+@section('page_title', 'Ordens de Serviço')
 
 @section('content')
 

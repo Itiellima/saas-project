@@ -15,7 +15,7 @@
 
 
             <h5 class="mb-0 fw-semibold">
-                Dashboard
+                @yield('page_title', 'OficinaOS')
             </h5>
 
         </div>
@@ -25,7 +25,7 @@
         <div class="d-flex align-items-center gap-3">
 
             {{-- PESQUISA --}}
-            <div class="d-none d-md-block">
+            <form action="{{ route('service-orders.index') }}" method="GET" class="d-none d-md-block" role="search">
 
                 <div class="input-group">
 
@@ -33,16 +33,19 @@
                         <i class="bi bi-search text-secondary"></i>
                     </span>
 
-                    <input type="text" class="form-control bg-light border-start-0" placeholder="Buscar..."
-                        style="width: 220px;">
+                    <input type="search" name="search" class="form-control bg-light border-start-0"
+                        placeholder="Buscar OS por cliente ou placa..." aria-label="Buscar ordens de serviço"
+                        value="{{ request()->routeIs('service-orders.index') ? request('search') : '' }}"
+                        style="width: 260px;">
 
                 </div>
 
-            </div>
+            </form>
 
 
             {{-- USUÁRIO --}}
-            <div class="d-flex align-items-center gap-2">
+            <a href="{{ route('profile.edit') }}" class="d-flex align-items-center gap-2 text-decoration-none text-body"
+                title="Meu perfil">
 
                 <div class="rounded-circle d-flex align-items-center justify-content-center"
                     style="
@@ -58,7 +61,7 @@
                     {{ Auth::user()->name ?? 'Admin' }}
                 </strong>
 
-            </div>
+            </a>
 
         </div>
 

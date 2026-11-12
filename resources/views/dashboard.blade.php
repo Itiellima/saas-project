@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
-@section('title', 'Dashboard - Workshop Management System')
+@section('title', 'Dashboard - OficinaOS')
+@section('page_title', 'Dashboard')
 
 @section('content')
     <div class="container text-black">

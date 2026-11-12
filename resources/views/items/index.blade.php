@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
-@section('title', 'OS - Workshop Management System')
+@section('title', 'Itens e Serviços - OficinaOS')
+@section('page_title', 'Itens e Serviços')
 
 @section('content')
 

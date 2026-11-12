@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('title', $item ? 'Editar Item - OficinaOS' : 'Novo Item - OficinaOS')
+@section('page_title', 'Itens e Serviços')
 
 @section('content')
 

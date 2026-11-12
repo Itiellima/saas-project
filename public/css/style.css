@@ -6,3 +6,10 @@
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
+/* Item ativo do menu na cor da marca */
+.list-group-item.active {
+    background-color: #fff1e6;
+    border-color: transparent;
+    color: #ff6500;
+    font-weight: 600;
+}

@@ -45,15 +45,7 @@
 
         <div class="list-group list-group-flush mt-2">
 
-            <a href="#" class="list-group-item list-group-item-action rounded">
-                <i class="bi bi-person me-2"></i>
-                Perfil
-            </a>
-
-            <a href="#" class="list-group-item list-group-item-action rounded">
-                <i class="bi bi-gear me-2"></i>
-                Configurações
-            </a>
+            @include('layouts.components.management-sidebar')
 
         </div>
 

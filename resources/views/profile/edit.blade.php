@@ -1,5 +1,8 @@
 @extends('layouts.main')
 
+@section('title', 'Perfil - OficinaOS')
+@section('page_title', 'Perfil')
+
 @section('content')
     <div class="container">
         <form action="{{ route('profile.update') }}" method="POST">
