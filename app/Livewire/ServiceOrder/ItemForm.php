@@ -64,8 +64,9 @@ class ItemForm extends Component
 
                 'quantity' => $this->quantity,
                 'price' => $item->sale_price,
+                'discount' => $this->discount ?: 0,
 
-                'total' => ($item->sale_price * $this->quantity) - $this->discount,
+                'total' => ($item->sale_price * $this->quantity) - ($this->discount ?: 0),
 
             ]);
 

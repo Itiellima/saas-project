@@ -48,6 +48,10 @@
                     </th>
 
                     <th class="text-end">
+                        Discount
+                    </th>
+
+                    <th class="text-end">
                         Total
                     </th>
 
@@ -123,6 +127,19 @@
                         </td>
 
 
+                        {{-- DISCOUNT --}}
+                        <td class="text-end text-danger">
+
+                            @if ($item->discount > 0)
+                                - R$
+                                {{ number_format($item->discount, 2, ',', '.') }}
+                            @else
+                                <span class="text-muted">—</span>
+                            @endif
+
+                        </td>
+
+
                         {{-- TOTAL --}}
                         <td class="text-end fw-semibold">
 
@@ -148,7 +165,7 @@
 
                     <tr>
 
-                        <td colspan="5" class="text-center py-5">
+                        <td colspan="6" class="text-center py-5">
 
                             <div class="text-muted">
 
@@ -177,7 +194,7 @@
 
                 <tr class="table-light">
 
-                    <td colspan="3" class="text-end fw-semibold">
+                    <td colspan="4" class="text-end fw-semibold">
                         Total:
                     </td>
 
