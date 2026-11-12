@@ -7,8 +7,8 @@
     <div class="container text-black">
 
         <div class="alert alert-light">
-            <h5>Welcome to the Dashboard</h5>
-            <p>This is a protected area. Only authenticated users can access this page.</p>
+            <h5>Bem-vindo ao OficinaOS</h5>
+            <p>Use o menu ao lado para gerenciar suas ordens de serviço e itens.</p>
         </div>
         <div class="row">
 

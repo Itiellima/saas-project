@@ -66,7 +66,7 @@
                 <div class="col-md-8">
 
                     <label class="form-label fw-semibold">
-                        Search
+                        Buscar
                     </label>
 
                     <div class="input-group">
@@ -92,23 +92,23 @@
                     <select class="form-select" wire:model.live="status">
 
                         <option value="">
-                            All statuses
+                            Todos os status
                         </option>
 
                         <option value="open">
-                            Open
+                            Aberta
                         </option>
 
                         <option value="in_progress">
-                            In progress
+                            Em andamento
                         </option>
 
                         <option value="finished">
-                            Finished
+                            Finalizada
                         </option>
 
                         <option value="cancelled">
-                            Cancelled
+                            Cancelada
                         </option>
 
                     </select>
@@ -181,24 +181,24 @@
                             {{-- STATUS --}}
                             @php
                                 $status = match ($order->status) {
-                                    'open' => ['label' => 'Open', 'class' => 'primary', 'icon' => 'folder2-open'],
+                                    'open' => ['label' => 'Aberta', 'class' => 'primary', 'icon' => 'folder2-open'],
                                     'in_progress' => [
-                                        'label' => 'In progress',
+                                        'label' => 'Em andamento',
                                         'class' => 'warning',
                                         'icon' => 'arrow-repeat',
                                     ],
                                     'finished' => [
-                                        'label' => 'Finished',
+                                        'label' => 'Finalizada',
                                         'class' => 'success',
                                         'icon' => 'check-circle',
                                     ],
                                     'cancelled' => [
-                                        'label' => 'Cancelled',
+                                        'label' => 'Cancelada',
                                         'class' => 'danger',
                                         'icon' => 'x-circle',
                                     ],
                                     default => [
-                                        'label' => 'Unknown',
+                                        'label' => 'Desconhecido',
                                         'class' => 'secondary',
                                         'icon' => 'question-circle',
                                     ],

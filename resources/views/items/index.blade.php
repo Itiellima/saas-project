@@ -12,12 +12,12 @@
 
             <h4 class="text-black mb-2">
                 <i class="bi bi-boxes-stacked me-2 text-primary"></i>
-                Items and Services
+                Itens e Serviços
             </h4>
 
             <p class="text-muted mb-0">
-                Here you can manage your items and services, add new ones,
-                edit or delete existing ones.
+                Gerencie os produtos e serviços usados nas ordens de serviço:
+                cadastre, edite ou exclua.
             </p>
 
         </div>
@@ -28,7 +28,7 @@
 
             <a href="{{ route('items.create') }}" class="btn text-white" style="background-color: #ff6500;">
                 <i class="bi bi-plus me-1"></i>
-                Add New Item or Service
+                Novo item ou serviço
             </a>
 
         </div>
@@ -55,28 +55,28 @@
                             <div class="small">
 
                                 <div class="d-flex justify-content-between mb-1">
-                                    <strong>Type:</strong>
+                                    <strong>Tipo:</strong>
                                     <span>
-                                        {{ ucfirst($item->type) }}
+                                        {{ $item->type === 'product' ? 'Produto' : 'Serviço' }}
                                     </span>
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-1">
-                                    <strong>Cost Price:</strong>
+                                    <strong>Preço de custo:</strong>
                                     <span>
-                                        ${{ number_format($item->cost_price, 2) }}
+                                        R$ {{ number_format($item->cost_price, 2, ',', '.') }}
                                     </span>
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-1">
-                                    <strong>Sale Price:</strong>
+                                    <strong>Preço de venda:</strong>
                                     <span>
-                                        ${{ number_format($item->sale_price, 2) }}
+                                        R$ {{ number_format($item->sale_price, 2, ',', '.') }}
                                     </span>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <strong>Stock:</strong>
+                                    <strong>Estoque:</strong>
                                     <span>
                                         {{ $item->stock }}
                                     </span>
@@ -94,7 +94,7 @@
 
                                 <a href="{{ route('items.edit', $item->id) }}" class="btn btn-sm btn-secondary flex-fill">
                                     <i class="bi bi-pencil me-1"></i>
-                                    Edit
+                                    Editar
                                 </a>
 
                                 <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="flex-fill">
@@ -103,9 +103,9 @@
                                     @method('DELETE')
 
                                     <button type="submit" class="btn btn-sm btn-danger w-100"
-                                        onclick="return confirm('Are you sure you want to delete this item or service?')">
+                                        onclick="return confirm('Tem certeza que deseja excluir este item ou serviço?')">
                                         <i class="bi bi-trash me-1"></i>
-                                        Delete
+                                        Excluir
                                     </button>
 
                                 </form>

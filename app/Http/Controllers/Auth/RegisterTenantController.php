@@ -54,11 +54,11 @@ class RegisterTenantController extends Controller
 
             Log::error('Error creating tenant and user: ' . $e->getMessage());
             
-            return back()->withErrors(['error' => 'An error occurred while creating the tenant. Please try again.']);
+            return back()->withErrors(['error' => 'Ocorreu um erro ao criar a empresa. Tente novamente.']);
         }
 
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', 'New business and user created successfully!');
+        return redirect()->route('dashboard')->with('success', 'Empresa e usuário criados com sucesso!');
     }
 }

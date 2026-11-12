@@ -46,7 +46,7 @@ class ServiceOrderController extends Controller
         ]);
 
 
-        return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Service order created successfully.');
+        return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Ordem de serviço criada com sucesso.');
     }
 
     public function show($id)
@@ -69,7 +69,7 @@ class ServiceOrderController extends Controller
 
         $serviceOrder->delete();
 
-        return redirect()->route('service-orders.index')->with('success', 'Service order deleted successfully.');
+        return redirect()->route('service-orders.index')->with('success', 'Ordem de serviço excluída com sucesso.');
     }
 
     public function closeServiceOrder($id)
@@ -85,7 +85,7 @@ class ServiceOrderController extends Controller
             'finished_at' => now(),
         ]);
 
-        return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Service order finished successfully.');
+        return redirect()->route('service-orders.show', $serviceOrder->id)->with('success', 'Ordem de serviço finalizada com sucesso.');
     }
 
     public function reopen(Request $request, $id)

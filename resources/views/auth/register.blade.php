@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Register')
+@section('title', 'Criar conta - OficinaOS')
 
 @section('content')
 

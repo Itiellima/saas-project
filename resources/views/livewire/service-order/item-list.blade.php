@@ -8,17 +8,17 @@
             <div>
                 <h5 class="mb-1 fw-semibold">
                     <i class="bi bi-cart3 me-2" style="color: #ff6500;"></i>
-                    Items and Services
+                    Itens e serviços
                 </h5>
 
                 <small class="text-muted">
-                    Items and services added to this service order.
+                    Itens e serviços adicionados a esta ordem de serviço.
                 </small>
             </div>
 
             <span class="badge rounded-pill text-bg-light border">
                 {{ $items->count() }}
-                {{ $items->count() === 1 ? 'item' : 'items' }}
+                {{ $items->count() === 1 ? 'item' : 'itens' }}
             </span>
 
         </div>
@@ -40,15 +40,15 @@
                     </th>
 
                     <th class="text-center">
-                        Quantity
+                        Quantidade
                     </th>
 
                     <th class="text-end">
-                        Unit Price
+                        Preço unitário
                     </th>
 
                     <th class="text-end">
-                        Discount
+                        Desconto
                     </th>
 
                     <th class="text-end">
@@ -56,7 +56,7 @@
                     </th>
 
                     <th class="text-center" style="width: 100px;">
-                        Actions
+                        Ações
                     </th>
 
                 </tr>
@@ -98,7 +98,7 @@
                                     </div>
 
                                     <small class="text-muted text-capitalize">
-                                        {{ $item->type }}
+                                        {{ $item->type === 'product' ? 'Produto' : 'Serviço' }}
                                     </small>
 
                                 </div>
@@ -153,7 +153,7 @@
                         <td class="text-center">
 
                             <button type="button" wire:click="deleteItemList({{ $item->id }})"
-                                class="btn btn-sm btn-outline-danger" title="Remove item">
+                                class="btn btn-sm btn-outline-danger" title="Remover item">
                                 <i class="bi bi-trash"></i>
                             </button>
 
@@ -172,11 +172,11 @@
                                 <i class="bi bi-cart-x fs-1 d-block mb-2"></i>
 
                                 <div class="fw-semibold">
-                                    No items added
+                                    Nenhum item adicionado
                                 </div>
 
                                 <small>
-                                    Add products or services to this service order.
+                                    Adicione produtos ou serviços a esta ordem de serviço.
                                 </small>
 
                             </div>

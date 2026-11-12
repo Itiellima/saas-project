@@ -48,10 +48,10 @@
 
                     <div wire:ignore.self>
 
-                        <select wire:model="item_id" id="item" placeholder="Select an item" class="form-select">
+                        <select wire:model="item_id" id="item" placeholder="Selecione um item" class="form-select">
 
                             <option value="">
-                                Select an item
+                                Selecione um item
                             </option>
 
                             @foreach ($items as $item)
@@ -59,11 +59,11 @@
 
                                     {{ $item->name }}
                                     —
-                                    {{ ucfirst($item->type) }}
+                                    {{ $item->type === 'product' ? 'Produto' : 'Serviço' }}
                                     —
                                     R$ {{ number_format($item->sale_price, 2, ',', '.') }}
                                     —
-                                    {{ $item->stock }} in stock
+                                    {{ $item->type === 'product' ? $item->stock . ' em estoque' : 'serviço' }}
 
                                 </option>
                             @endforeach
@@ -87,7 +87,7 @@
             <div class="row align-items-center mb-4">
 
                 <label for="quantity" class="col-12 col-md-2 col-lg-1 col-form-label fw-semibold">
-                    Quantity
+                    Quantidade
                 </label>
 
                 <div class="col-12 col-md-10 col-lg-11">
@@ -117,7 +117,7 @@
             <div class="row align-items-center mb-4">
 
                 <label for="discount" class="col-12 col-md-2 col-lg-1 col-form-label fw-semibold">
-                    Discount
+                    Desconto
                 </label>
 
                 <div class="col-12 col-md-10 col-lg-11">
@@ -151,7 +151,7 @@
 
                     <i class="bi bi-plus-lg me-1"></i>
 
-                    Add Item
+                    Adicionar item
 
                 </button>
 

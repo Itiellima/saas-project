@@ -47,7 +47,7 @@ class ItemController extends Controller
             'quantity' => $validated['quantity'] ?? 0,
         ]);
 
-        return redirect()->route('items.index')->with('success', 'Item created successfully.');
+        return redirect()->route('items.index')->with('success', 'Item cadastrado com sucesso.');
     }
 
     public function edit($id)
@@ -73,7 +73,7 @@ class ItemController extends Controller
 
         $item->update($validated);
 
-        return redirect()->route('items.index')->with('success', 'Item updated successfully.');
+        return redirect()->route('items.index')->with('success', 'Item atualizado com sucesso.');
     }
 
     public function destroy($id)
@@ -82,6 +82,6 @@ class ItemController extends Controller
 
         $item->delete();
 
-        return redirect()->route('items.index')->with('success', 'Item deleted successfully.');
+        return redirect()->route('items.index')->with('success', 'Item excluído com sucesso.');
     }
 }
