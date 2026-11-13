@@ -40,13 +40,21 @@
             @foreach ($items as $item)
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
 
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm {{ $item->active ? '' : 'opacity-75' }}">
 
                         <div class="card-body">
 
-                            <h5 class="card-title text-truncate" title="{{ $item->name }}">
-                                {{ $item->name }}
-                            </h5>
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+
+                                <h5 class="card-title text-truncate" title="{{ $item->name }}">
+                                    {{ $item->name }}
+                                </h5>
+
+                                @unless ($item->active)
+                                    <span class="badge text-bg-secondary flex-shrink-0">Inativo</span>
+                                @endunless
+
+                            </div>
 
                             <p class="card-text text-muted">
                                 {{ $item->description }}
@@ -97,18 +105,49 @@
                                     Editar
                                 </a>
 
-                                <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="flex-fill">
+                                @if (! $item->active)
+                                    {{-- REATIVAR --}}
+                                    <form action="{{ route('items.toggle', $item->id) }}" method="POST" class="flex-fill">
 
-                                    @csrf
-                                    @method('DELETE')
+                                        @csrf
+                                        @method('PUT')
 
-                                    <button type="submit" class="btn btn-sm btn-danger w-100"
-                                        onclick="return confirm('Tem certeza que deseja excluir este item ou serviço?')">
-                                        <i class="bi bi-trash me-1"></i>
-                                        Excluir
-                                    </button>
+                                        <button type="submit" class="btn btn-sm btn-outline-success w-100">
+                                            <i class="bi bi-arrow-counterclockwise me-1"></i>
+                                            Reativar
+                                        </button>
 
-                                </form>
+                                    </form>
+                                @elseif ($item->is_used)
+                                    {{-- DESATIVAR: já usado em OS, não pode ser excluído --}}
+                                    <form action="{{ route('items.toggle', $item->id) }}" method="POST" class="flex-fill">
+
+                                        @csrf
+                                        @method('PUT')
+
+                                        <button type="submit" class="btn btn-sm btn-outline-danger w-100"
+                                            title="Já usado em ordens de serviço: desative em vez de excluir"
+                                            onclick="return confirm('Desativar este item? Ele não aparecerá mais ao adicionar itens nas OS, mas o histórico é mantido.')">
+                                            <i class="bi bi-slash-circle me-1"></i>
+                                            Desativar
+                                        </button>
+
+                                    </form>
+                                @else
+                                    {{-- EXCLUIR: nunca usado em OS --}}
+                                    <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="flex-fill">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-sm btn-danger w-100"
+                                            onclick="return confirm('Tem certeza que deseja excluir este item ou serviço?')">
+                                            <i class="bi bi-trash me-1"></i>
+                                            Excluir
+                                        </button>
+
+                                    </form>
+                                @endif
 
                             </div>
 
@@ -119,6 +158,17 @@
                 </div>
             @endforeach
 
+        </div>
+
+        @if ($items->isEmpty())
+            <div class="text-center text-secondary py-5">
+                <i class="bi bi-box-seam fs-1 d-block mb-2"></i>
+                Nenhum item cadastrado ainda.
+            </div>
+        @endif
+
+        <div class="mt-4">
+            {{ $items->links() }}
         </div>
 
     </div>

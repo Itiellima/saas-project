@@ -44,6 +44,7 @@ class DashboardController extends Controller
 
         $lowStockItems = Item::where('tenant_id', $tenantId)
             ->where('type', 'product')
+            ->active()
             ->where('stock', '<=', self::LOW_STOCK_LIMIT)
             ->orderBy('stock')
             ->orderBy('name')

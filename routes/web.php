@@ -67,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/items/update/{id}', [ItemController::class, 'update'])->name('items.update');
 
     Route::delete('/items/destroy/{id}', [ItemController::class, 'destroy'])->name('items.destroy');
+
+    Route::put('/items/toggle/{id}', [ItemController::class, 'toggle'])->name('items.toggle');
 });
 
 Route::middleware(['auth'])->group(function () {

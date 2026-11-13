@@ -39,6 +39,12 @@ class ItemForm extends Component
         $item = Item::where('tenant_id', Auth::user()->tenant_id)
             ->findOrFail($this->item_id);
 
+        // O seletor só mostra itens ativos; isto impede escolher um inativo pelo navegador
+        if (! $item->active) {
+            $this->addError('item_id', 'Este item está desativado e não pode ser adicionado.');
+            return;
+        }
+
         // Verifica se a quantidade solicitada é maior do que a quantidade disponivel em estoque
         // Serviços não têm estoque
         if ($item->type === 'product' && $item->stock < $this->quantity) {
@@ -120,6 +126,7 @@ class ItemForm extends Component
     public function render()
     {
         $items = Item::where('tenant_id', Auth::user()->tenant_id)
+            ->active()
             ->orderBy('name')
             ->get();
 

@@ -30,6 +30,9 @@ return new class extends Migration
 
             $table->integer('quantity')->default(0);
 
+            // Itens desativados não podem ser adicionados a novas OS
+            $table->boolean('active')->default(true);
+
 
             $table->timestamps();
         });

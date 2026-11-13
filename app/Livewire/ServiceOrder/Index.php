@@ -13,6 +13,9 @@ class Index extends Component
 
     use WithPagination;
 
+    // As telas usam Bootstrap; o padrão do Livewire é Tailwind
+    protected $paginationTheme = 'bootstrap';
+
     // Na URL: a busca do topo da página chega aqui por ?search=
     #[Url(except: '')]
     public $search = '';
