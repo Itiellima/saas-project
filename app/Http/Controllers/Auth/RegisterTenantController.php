@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterTenantController extends Controller
 {
@@ -28,7 +28,7 @@ class RegisterTenantController extends Controller
             'tenant_name' => ['required', 'string', 'max:255'],
             'user_name' => ['required', 'string', 'max:255'],
             'user_email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed'],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         try {
@@ -37,7 +37,7 @@ class RegisterTenantController extends Controller
 
             $tenant = Tenant::create([
                 'name' => $validated['tenant_name'],
-                'domain' => Str::slug($validated['tenant_name']),
+                'domain' => Tenant::uniqueDomain($validated['tenant_name']),
             ]);
 
             $user = User::create([
@@ -45,8 +45,10 @@ class RegisterTenantController extends Controller
                 'name' => $validated['user_name'],
                 'email' => $validated['user_email'],
                 'password' => Hash::make($validated['password']),
-                'role' => 'admin',
             ]);
+
+            // role fica fora do $fillable para não poder vir de um formulário
+            $user->forceFill(['role' => 'admin'])->save();
 
             DB::commit();
         } catch (\Exception $e) {

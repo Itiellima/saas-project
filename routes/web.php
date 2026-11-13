@@ -17,8 +17,11 @@ Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['aut
 require __DIR__ . '/auth.php';
 
 
-Route::get('/register', [RegisterTenantController::class, 'create'])->name('register');
-Route::post('/register', [RegisterTenantController::class, 'store'])->name('register.store');
+// Cadastro de uma nova oficina (tenant) com o seu primeiro usuário
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisterTenantController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterTenantController::class, 'store'])->name('register.store');
+});
 
 Route::get('/vehicles/create', function () {
     return view('vehicles.create');
