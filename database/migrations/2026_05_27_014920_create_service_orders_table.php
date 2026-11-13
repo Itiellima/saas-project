@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('vehicle_model')->nullable();
             $table->integer('vehicle_km')->nullable();
 
-            $table->date('vehicle_enter')->nullable();
-            $table->date('vehicle_leave')->nullable();
+            $table->dateTime('vehicle_enter')->nullable();
+            $table->dateTime('vehicle_leave')->nullable();
 
             $table->enum('status', [
                 'open',
@@ -36,6 +36,12 @@ return new class extends Migration
                 'finished',
                 'cancelled'
             ])->default('open');
+
+            $table->dateTime('finished_at')->nullable();
+            $table->dateTime('reopened_at')->nullable();
+            $table->string('reopen_reason')->nullable();
+            $table->dateTime('cancelled_at')->nullable();
+            $table->string('cancel_reason')->nullable();
 
             $table->text('description')->nullable();
 
