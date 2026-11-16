@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.auth')] class extends Component {
+new #[Layout('components.layouts.auth'), Title('Confirmar senha')] class extends Component {
     public string $password = '';
 
     /**
@@ -32,30 +33,37 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header
-        title="Confirmar senha"
-        description="Esta é uma área protegida. Confirme sua senha para continuar."
-    />
+<div>
+    <x-auth-header badge="Área protegida" title="Confirme sua senha"
+        description="Por segurança, confirme sua senha para continuar." />
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="confirmPassword" class="flex flex-col gap-6">
-        <!-- Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password"
-                id="password"
-                label="{{ __('Password') }}"
-                type="password"
-                name="password"
-                required
-                autocomplete="new-password"
-                placeholder="Senha"
-            />
+    <form wire:submit="confirmPassword">
+
+        <div class="mb-4">
+            <label for="password" class="form-label fw-semibold">Senha</label>
+
+            <div class="input-group has-validation">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-lock text-secondary"></i>
+                </span>
+
+                <input type="password" id="password" wire:model="password" required autofocus
+                    autocomplete="current-password"
+                    class="form-control bg-light border-start-0 @error('password') is-invalid @enderror">
+
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
-        <flux:button variant="primary" type="submit" class="w-full">{{ __('Confirm') }}</flux:button>
+
+        <button type="submit" class="btn btn-brand w-100 py-2 fw-semibold">
+            <i class="bi bi-shield-check me-2"></i>
+            Confirmar
+        </button>
+
     </form>
 </div>

@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Locked;
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.auth')] class extends Component {
+new #[Layout('components.layouts.auth'), Title('Redefinir senha')] class extends Component {
     #[Locked]
     public string $token = '';
     public string $email = '';
@@ -68,50 +69,73 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header title="Redefinir senha" description="Informe sua nova senha abaixo" />
+<div>
+    <x-auth-header badge="Nova senha" title="Redefinir senha"
+        description="Crie uma nova senha com pelo menos 8 caracteres." />
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="resetPassword" class="flex flex-col gap-6">
-        <!-- Email Address -->
-        <div class="grid gap-2">
-            <flux:input wire:model="email" id="email" label="{{ __('Email') }}" type="email" name="email" required autocomplete="email" />
+    <form wire:submit="resetPassword">
+
+        <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">E-mail</label>
+
+            <div class="input-group has-validation">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-envelope text-secondary"></i>
+                </span>
+
+                <input type="email" id="email" wire:model="email" required autocomplete="email"
+                    class="form-control bg-light border-start-0 @error('email') is-invalid @enderror">
+
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
-        <!-- Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password"
-                id="password"
-                label="{{ __('Password') }}"
-                type="password"
-                name="password"
-                required
-                autocomplete="new-password"
-                placeholder="Senha"
-            />
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <label for="password" class="form-label fw-semibold">Nova senha</label>
+
+                <div class="input-group has-validation">
+                    <span class="input-group-text bg-light border-end-0">
+                        <i class="bi bi-lock text-secondary"></i>
+                    </span>
+
+                    <input type="password" id="password" wire:model="password" required autofocus
+                        autocomplete="new-password"
+                        class="form-control bg-light border-start-0 @error('password') is-invalid @enderror">
+
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+
+            <div class="col-md-6 mb-3">
+                <label for="password_confirmation" class="form-label fw-semibold">Confirme a senha</label>
+
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0">
+                        <i class="bi bi-lock text-secondary"></i>
+                    </span>
+
+                    <input type="password" id="password_confirmation" wire:model="password_confirmation" required
+                        autocomplete="new-password" class="form-control bg-light border-start-0">
+                </div>
+            </div>
+
         </div>
 
-        <!-- Confirm Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password_confirmation"
-                id="password_confirmation"
-                label="{{ __('Confirm password') }}"
-                type="password"
-                name="password_confirmation"
-                required
-                autocomplete="new-password"
-                placeholder="Confirme a senha"
-            />
-        </div>
 
-        <div class="flex items-center justify-end">
-            <flux:button type="submit" variant="primary" class="w-full">
-                {{ __('Reset password') }}
-            </flux:button>
-        </div>
+        <button type="submit" class="btn btn-brand w-100 py-2 fw-semibold mt-2">
+            <i class="bi bi-check-lg me-2"></i>
+            Redefinir senha
+        </button>
+
     </form>
 </div>

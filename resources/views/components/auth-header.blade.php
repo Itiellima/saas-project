@@ -1,9 +1,19 @@
-@props([
-    'title',
-    'description',
-])
+@props(['title', 'description', 'badge' => null])
 
-<div class="flex w-full flex-col gap-2 text-center">
-    <h1 class="text-xl font-medium dark:text-zinc-200">{{ $title }}</h1>
-    <p class="text-center text-sm dark:text-zinc-400">{{ $description }}</p>
+<div class="mb-4">
+
+    @if ($badge)
+        <span class="badge rounded-pill px-3 py-2 mb-3" style="background-color: #fff1e6; color: #ff6500;">
+            {{ $badge }}
+        </span>
+    @endif
+
+    <h3 class="fw-bold mb-2">
+        {{ $title }}
+    </h3>
+
+    <p class="text-secondary mb-0">
+        {{ $description }}
+    </p>
+
 </div>

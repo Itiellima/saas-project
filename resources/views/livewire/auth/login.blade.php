@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.auth')] class extends Component {
+new #[Layout('components.layouts.auth'), Title('Entrar')] class extends Component {
     #[Validate('required|string|email')]
     public string $email = '';
 
@@ -72,45 +73,79 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header title="Entre na sua conta" description="Informe seu e-mail e senha para entrar" />
+<div>
+    <x-auth-header badge="Bem-vindo de volta" title="Entre na sua conta"
+        description="Informe seu e-mail e senha para acessar o sistema." />
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form wire:submit="login" class="flex flex-col gap-6">
-        <!-- Email Address -->
-        <flux:input wire:model="email" label="{{ __('Email address') }}" type="email" name="email" required autofocus autocomplete="email" placeholder="email@example.com" />
+    <form wire:submit="login">
 
-        <!-- Password -->
-        <div class="relative">
-            <flux:input
-                wire:model="password"
-                label="{{ __('Password') }}"
-                type="password"
-                name="password"
-                required
-                autocomplete="current-password"
-                placeholder="Senha"
-            />
+        <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">E-mail</label>
 
-            @if (Route::has('password.request'))
-                <x-text-link class="absolute right-0 top-0" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </x-text-link>
-            @endif
+            <div class="input-group has-validation">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-envelope text-secondary"></i>
+                </span>
+
+                <input type="email" id="email" wire:model="email" required autofocus autocomplete="email"
+                    placeholder="seu@email.com"
+                    class="form-control bg-light border-start-0 @error('email') is-invalid @enderror">
+
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
-        <!-- Remember Me -->
-        <flux:checkbox wire:model="remember" label="{{ __('Remember me') }}" />
 
-        <div class="flex items-center justify-end">
-            <flux:button variant="primary" type="submit" class="w-full">{{ __('Log in') }}</flux:button>
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <label for="password" class="form-label fw-semibold">Senha</label>
+
+                <a href="{{ route('password.request') }}" class="small text-decoration-none link-brand" wire:navigate>
+                    Esqueceu a senha?
+                </a>
+            </div>
+
+            <div class="input-group has-validation">
+                <span class="input-group-text bg-light border-end-0">
+                    <i class="bi bi-lock text-secondary"></i>
+                </span>
+
+                <input type="password" id="password" wire:model="password" required autocomplete="current-password"
+                    class="form-control bg-light border-start-0 @error('password') is-invalid @enderror">
+
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
+
+
+        <div class="form-check mb-4">
+            <input type="checkbox" id="remember" wire:model="remember" class="form-check-input">
+            <label for="remember" class="form-check-label">Lembrar de mim</label>
+        </div>
+
+
+        <button type="submit" class="btn btn-brand w-100 py-2 fw-semibold">
+            <span wire:loading.remove wire:target="login">
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+                Entrar
+            </span>
+            <span wire:loading wire:target="login">
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Entrando...
+            </span>
+        </button>
+
     </form>
 
-    <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-        Ainda não tem conta?
-        <x-text-link href="{{ route('register') }}">Cadastre-se</x-text-link>
+
+    <div class="text-center mt-4">
+        <small class="text-secondary">Ainda não tem conta?</small>
+        <a href="{{ route('register') }}" class="text-decoration-none fw-semibold ms-1 link-brand">Cadastre-se</a>
     </div>
 </div>
