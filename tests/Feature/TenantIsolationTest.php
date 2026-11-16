@@ -5,7 +5,6 @@ use App\Livewire\ServiceOrder\ItemForm;
 use App\Models\Item;
 use App\Models\ServiceOrder;
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -49,10 +48,10 @@ test('an item from another workshop cannot be added to a service order', functio
     $serviceOrder = ServiceOrder::factory()->create(['tenant_id' => $this->user->tenant_id]);
     $otherItem = Item::factory()->service()->create(['tenant_id' => $this->other->tenant_id]);
 
-    expect(fn () => Livewire::test(ItemForm::class, ['serviceOrder' => $serviceOrder])
+    Livewire::test(ItemForm::class, ['serviceOrder' => $serviceOrder])
         ->set('item_id', $otherItem->id)
-        ->call('save'))
-        ->toThrow(ModelNotFoundException::class);
+        ->call('save')
+        ->assertNotFound();
 
     expect($serviceOrder->items()->count())->toBe(0);
 });

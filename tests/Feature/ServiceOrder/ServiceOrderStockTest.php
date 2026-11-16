@@ -78,9 +78,9 @@ test('an item from another service order cannot be removed', function () {
     $otherOrderItemId = $otherOrder->items()->first()->id;
 
     $this->actingAs($this->user);
-    expect(fn () => Livewire::test(ItemList::class, ['serviceOrder' => $this->serviceOrder])
-        ->call('deleteItemList', $otherOrderItemId))
-        ->toThrow(Illuminate\Database\Eloquent\ModelNotFoundException::class);
+    Livewire::test(ItemList::class, ['serviceOrder' => $this->serviceOrder])
+        ->call('deleteItemList', $otherOrderItemId)
+        ->assertNotFound();
 
     expect($otherOrder->items()->count())->toBe(1);
 });
