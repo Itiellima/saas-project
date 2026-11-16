@@ -20,7 +20,10 @@ require __DIR__ . '/auth.php';
 // Cadastro de uma nova oficina (tenant) com o seu primeiro usuário
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterTenantController::class, 'create'])->name('register');
-    Route::post('/register', [RegisterTenantController::class, 'store'])->name('register.store');
+    // Até 5 cadastros por minuto por IP, contra criação de oficinas em massa
+    Route::post('/register', [RegisterTenantController::class, 'store'])
+        ->middleware('throttle:5,1')
+        ->name('register.store');
 });
 
 Route::get('/vehicles/create', function () {
