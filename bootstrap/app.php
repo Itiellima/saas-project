@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Em produção o app fica atrás do proxy do Easypanel (Traefik), que cuida do HTTPS.
+        // Sem isto, o Laravel acha que a requisição é http:// e gera links e redirecionamentos errados.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
