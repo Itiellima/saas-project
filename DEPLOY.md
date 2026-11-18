@@ -27,7 +27,7 @@ APP_NAME=OficinaOS
 APP_ENV=production
 APP_DEBUG=false
 APP_KEY=
-APP_URL=https://SEU-DOMINIO
+APP_URL=https://oficinalize.online
 APP_LOCALE=pt_BR
 APP_FALLBACK_LOCALE=en
 
@@ -53,8 +53,12 @@ MAIL_PORT=587
 MAIL_USERNAME=resend
 MAIL_PASSWORD=
 MAIL_FROM_ADDRESS=nao-responda@oficinalize.online
-MAIL_FROM_NAME="${APP_NAME}"
+MAIL_FROM_NAME=OficinaOS
 ```
+
+**Atenção:** no Easypanel escreva os valores **por extenso**, sem aspas e sem `${OUTRA_VARIAVEL}`.
+Essa substituição só acontece num arquivo `.env` local; no container o texto chega literal
+(ex.: o remetente apareceria como `${APP_NAME}`).
 
 **APP_KEY**: gere na sua máquina com `php artisan key:generate --show` e cole o valor
 (começa com `base64:`). Gere **uma vez** e não troque mais: trocar invalida sessões e dados criptografados.
