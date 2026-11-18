@@ -46,15 +46,13 @@ SESSION_SECURE_COOKIE=true
 CACHE_STORE=database
 QUEUE_CONNECTION=database
 
-# E-mail — PENDENTE (sem provedor ainda).
-# Enquanto for "log", o "esqueci minha senha" NÃO envia e-mail.
-MAIL_MAILER=log
-MAIL_SCHEME=
-MAIL_HOST=
+# E-mail (Resend) — veja a seção 6
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.resend.com
 MAIL_PORT=587
-MAIL_USERNAME=
+MAIL_USERNAME=resend
 MAIL_PASSWORD=
-MAIL_FROM_ADDRESS=
+MAIL_FROM_ADDRESS=nao-responda@oficinalize.online
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
@@ -72,13 +70,38 @@ MAIL_FROM_NAME="${APP_NAME}"
 1. Abra `https://SEU-DOMINIO` → landing page.
 2. **Criar conta** (`/register`) cria a primeira oficina e o usuário dono.
 
-## 6. Backup do banco
+## 6. E-mail (Resend)
+
+Usado pelo "esqueci minha senha". Sem isso configurado, nenhum e-mail sai.
+
+1. Crie a conta em [resend.com](https://resend.com) → **Domains → Add Domain** → `oficinalize.online`.
+2. O Resend mostra os registros DNS a criar (hoje: **TXT** `resend._domainkey` para o DKIM,
+   **CNAME** `send` e `rsend` para o envio e **TXT** `_dmarc` com `v=DMARC1; p=none;`).
+   Crie **exatamente** o que o Resend mostrar no DNS da Hostinger (mesmo painel do `www`):
+   - no campo Nome, só a parte antes do domínio (`send`, não `send.oficinalize.online`);
+   - copie o conteúdo clicando nele (o painel mostra o valor cortado com `[...]`);
+   - deixe "Enable receiving" desligado (o sistema só envia).
+3. Clique em verificar e espere todos os registros ficarem com ✓ (minutos a algumas horas).
+4. Não mexa nos registros `A` (`@`, `www`, `*`): são eles que mantêm o site no ar.
+5. **API Keys → Create API Key** (permissão "Sending access") e cole em `MAIL_PASSWORD` no Easypanel.
+   O usuário SMTP é sempre `resend`; use a porta **587** (a 25 costuma ser bloqueada em VPS).
+6. Faça o **Deploy** (as variáveis só valem depois de reiniciar o app).
+7. No console do serviço `app`, teste:
+
+   ```bash
+   php artisan app:test-mail seu@email.com
+   ```
+
+   Se der erro, a mensagem diz o motivo (senha/API key errada, domínio não verificado...).
+8. Teste o fluxo real: **Esqueceu a senha?** na tela de login.
+
+## 7. Backup do banco
 
 - Destino: **Dropbox**, configurado no Easypanel.
 - Configure o backup agendado no serviço `db` (**Backups**), com frequência diária.
 - Depois de configurar, **teste uma restauração** pelo menos uma vez — backup que nunca foi restaurado não é garantia.
 
-## 7. Regras de manutenção
+## 8. Regras de manutenção
 
 - **Nunca** rode o seeder em produção (o `DemoSeeder` já se recusa em `production`, mas não force).
 - **Nunca edite migrations antigas** depois do primeiro deploy: mudança de banco = **nova migration**.
@@ -89,5 +112,6 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 ## Pendências
 
-- [ ] Provedor de e-mail (SMTP) para o "esqueci minha senha".
-- [ ] Domínio próprio (trocar `APP_URL` e o domínio no Easypanel).
+- [x] Domínio próprio: `oficinalize.online` (e `www`).
+- [ ] Redirecionar `www.oficinalize.online` para `oficinalize.online`.
+- [x] Provedor de e-mail: Resend (seção 6).
