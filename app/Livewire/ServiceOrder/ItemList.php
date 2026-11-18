@@ -64,6 +64,7 @@ class ItemList extends Component
         });
 
         $this->dispatch('item-removed');
+        $this->dispatch('toast', type: 'success', message: 'Item removido da OS.');
     }
 
     public function render()

@@ -113,6 +113,7 @@ class ItemForm extends Component
 
 
         $this->dispatch('item-added');
+        $this->dispatch('toast', type: 'success', message: 'Item adicionado à OS.');
     }
 
     public function mount(ServiceOrder $serviceOrder)
