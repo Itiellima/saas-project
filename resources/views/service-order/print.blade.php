@@ -127,11 +127,15 @@
             <div>
                 <h4 class="fw-bold mb-1">{{ $serviceOrder->tenant->name }}</h4>
 
+                @if ($serviceOrder->tenant->addressLine())
+                    <div class="text-secondary">{{ $serviceOrder->tenant->addressLine() }}</div>
+                @endif
+
                 <div class="text-secondary">
                     {{ collect([
                         $serviceOrder->tenant->phone,
                         $serviceOrder->tenant->email,
-                        $serviceOrder->tenant->document ? 'CNPJ/CPF ' . $serviceOrder->tenant->document : null,
+                        $serviceOrder->tenant->documentLabel(),
                     ])->filter()->implode(' · ') }}
                 </div>
             </div>

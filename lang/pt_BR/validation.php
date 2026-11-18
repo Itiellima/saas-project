@@ -193,6 +193,17 @@ return [
         'password' => 'senha',
         'current_password' => 'senha atual',
 
+        // Dados da oficina
+        'document' => 'CPF/CNPJ',
+        'phone' => 'telefone',
+        'zip_code' => 'CEP',
+        'street' => 'rua',
+        'number' => 'número',
+        'complement' => 'complemento',
+        'district' => 'bairro',
+        'city' => 'cidade',
+        'state' => 'UF',
+
         // Ordem de serviço
         'customer_name' => 'nome do cliente',
         'customer_phone' => 'telefone do cliente',

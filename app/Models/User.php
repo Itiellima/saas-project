@@ -50,6 +50,14 @@ class User extends Authenticatable // implements MustVerifyEmail
     }
 
     /**
+     * Dono da oficina (criado no cadastro). Pode editar os dados da oficina.
+     */
+    public function isOwner(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
      * Administrador geral da plataforma (acima das oficinas).
      */
     public function isSuperAdmin(): bool

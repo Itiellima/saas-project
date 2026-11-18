@@ -1,3 +1,10 @@
+@if (Auth::user()?->isOwner())
+    <a href="{{ route('workshop.edit') }}"
+        class="list-group-item list-group-item-action rounded {{ request()->routeIs('workshop.*') ? 'active' : '' }}">
+        <i class="bi bi-building me-2"></i>
+        Oficina
+    </a>
+@endif
 <a href="{{ route('profile.edit') }}"
     class="list-group-item list-group-item-action rounded {{ request()->routeIs('profile.*') ? 'active' : '' }}">
     <i class="bi bi-person me-2"></i>

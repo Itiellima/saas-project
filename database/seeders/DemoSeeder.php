@@ -54,7 +54,13 @@ class DemoSeeder extends Seeder
             'domain' => self::DOMAIN,
             'email' => 'contato@oficina.test',
             'phone' => '(11) 3333-4444',
-            'document' => '12.345.678/0001-90',
+            'document' => '11222333000181',
+            'zip_code' => '01001000',
+            'street' => 'Praça da Sé',
+            'number' => '100',
+            'district' => 'Sé',
+            'city' => 'São Paulo',
+            'state' => 'SP',
         ]);
 
         User::create([

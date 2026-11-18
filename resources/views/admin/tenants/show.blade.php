@@ -119,8 +119,11 @@
                             <dt class="col-5 text-secondary fw-normal">Telefone</dt>
                             <dd class="col-7">{{ $tenant->phone ?: '—' }}</dd>
 
-                            <dt class="col-5 text-secondary fw-normal">CNPJ/CPF</dt>
-                            <dd class="col-7">{{ $tenant->document ?: '—' }}</dd>
+                            <dt class="col-5 text-secondary fw-normal">CPF/CNPJ</dt>
+                            <dd class="col-7">{{ $tenant->documentLabel() ?? '—' }}</dd>
+
+                            <dt class="col-5 text-secondary fw-normal">Endereço</dt>
+                            <dd class="col-7">{{ $tenant->addressLine() ?? '—' }}</dd>
 
                             <dt class="col-5 text-secondary fw-normal">Identificador</dt>
                             <dd class="col-7 mb-0"><code>{{ $tenant->domain }}</code></dd>

@@ -8,6 +8,7 @@ use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WorkshopController;
 use App\Livewire\ServiceOrder\Index;
 
 Route::get('/', function () {
@@ -77,6 +78,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/items/destroy/{id}', [ItemController::class, 'destroy'])->name('items.destroy');
 
     Route::put('/items/toggle/{id}', [ItemController::class, 'toggle'])->name('items.toggle');
+});
+
+// Dados da própria oficina: só o dono
+Route::middleware(['auth', 'owner'])->group(function () {
+    Route::get('/workshop', [WorkshopController::class, 'edit'])->name('workshop.edit');
+    Route::put('/workshop', [WorkshopController::class, 'update'])->name('workshop.update');
 });
 
 // Área do administrador geral da plataforma (404 para os demais)
