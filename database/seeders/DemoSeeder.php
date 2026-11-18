@@ -10,11 +10,15 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Oficina de demonstração com itens e OS em todos os status.
  *
  * Login: admin@oficina.test / password
+ *
+ * Pode rodar várias vezes: a oficina demo anterior é apagada e recriada
+ * (usuários, itens e OS saem junto pelo cascade). As outras oficinas não são tocadas.
  */
 class DemoSeeder extends Seeder
 {
@@ -23,11 +27,31 @@ class DemoSeeder extends Seeder
     /** @var array<string, Item> */
     private array $items = [];
 
+    public const DOMAIN = 'oficina-demo';
+
     public function run(): void
+    {
+        // Trava aqui (e não só no DatabaseSeeder): vale também para db:seed --class=DemoSeeder
+        if (app()->isProduction()) {
+            $this->command?->warn('Seeder de demonstração ignorado em produção.');
+
+            return;
+        }
+
+        DB::transaction(function () {
+            Tenant::where('domain', self::DOMAIN)->delete();
+
+            $this->createTenant();
+            $this->createItems();
+            $this->createServiceOrders();
+        });
+    }
+
+    private function createTenant(): void
     {
         $this->tenant = Tenant::create([
             'name' => 'Oficina Demo',
-            'domain' => 'oficina-demo',
+            'domain' => self::DOMAIN,
             'email' => 'contato@oficina.test',
             'phone' => '(11) 3333-4444',
             'document' => '12.345.678/0001-90',
@@ -40,9 +64,6 @@ class DemoSeeder extends Seeder
             'password' => 'password',
             'email_verified_at' => now(),
         ])->forceFill(['role' => 'admin'])->save();
-
-        $this->createItems();
-        $this->createServiceOrders();
     }
 
     private function createItems(): void

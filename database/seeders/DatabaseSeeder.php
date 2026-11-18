@@ -9,17 +9,11 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      *
-     * php artisan migrate:fresh --seed
+     * php artisan db:seed (pode repetir: recria só a oficina demo)
      */
     public function run(): void
     {
-        // Dados de demonstração: nunca rodar em produção
-        if (app()->isProduction()) {
-            $this->command?->warn('Seeder de demonstração ignorado em produção.');
-
-            return;
-        }
-
+        // O DemoSeeder se recusa a rodar em produção
         $this->call(DemoSeeder::class);
     }
 }
