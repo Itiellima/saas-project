@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\TenantController as AdminTenantController;
 use App\Http\Controllers\Auth\RegisterTenantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceOrderController;
@@ -81,6 +82,11 @@ Route::middleware(['auth'])->group(function () {
 // Área do administrador geral da plataforma (404 para os demais)
 Route::middleware(['auth', 'super-admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/tenants', [AdminTenantController::class, 'index'])->name('tenants.index');
+    Route::get('/tenants/{tenant}', [AdminTenantController::class, 'show'])->name('tenants.show');
+    Route::put('/tenants/{tenant}/suspend', [AdminTenantController::class, 'suspend'])->name('tenants.suspend');
+    Route::put('/tenants/{tenant}/reactivate', [AdminTenantController::class, 'reactivate'])->name('tenants.reactivate');
 });
 
 Route::middleware(['auth'])->group(function () {
