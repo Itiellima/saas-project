@@ -266,7 +266,9 @@
             const loading = document.getElementById('zip-loading');
             const feedback = document.getElementById('zip-feedback');
             const field = (id) => document.getElementById(id);
-            let lastSearched = onlyDigits(zip.value);
+            // Evita repetir a mesma busca enquanto o CEP não muda; é "esquecido" quando o CEP fica
+            // incompleto, para que apagar e digitar o mesmo CEP (inclusive o já salvo) busque de novo
+            let lastSearched = null;
 
             const showFeedback = (message) => {
                 feedback.textContent = message;
@@ -277,7 +279,12 @@
                 const cep = onlyDigits(zip.value);
                 showFeedback('');
 
-                if (cep.length !== 8 || cep === lastSearched) {
+                if (cep.length !== 8) {
+                    lastSearched = null;
+                    return;
+                }
+
+                if (cep === lastSearched) {
                     return;
                 }
                 lastSearched = cep;
