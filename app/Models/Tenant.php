@@ -19,6 +19,19 @@ class Tenant extends Model
     /**
      * Slug único a partir do nome: "oficina-do-joao", "oficina-do-joao-2", ...
      */
+    public function isSuspended(): bool
+    {
+        return $this->status === 'suspended';
+    }
+
+    /**
+     * A oficina do administrador geral nunca pode ser suspensa (ele ficaria trancado fora).
+     */
+    public function canBeSuspended(): bool
+    {
+        return ! $this->users()->where('is_super_admin', true)->exists();
+    }
+
     public static function uniqueDomain(string $name): string
     {
         $base = Str::slug($name) ?: 'oficina';

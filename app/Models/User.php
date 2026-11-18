@@ -45,7 +45,16 @@ class User extends Authenticatable // implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_super_admin' => 'boolean',
         ];
+    }
+
+    /**
+     * Administrador geral da plataforma (acima das oficinas).
+     */
+    public function isSuperAdmin(): bool
+    {
+        return (bool) $this->is_super_admin;
     }
 
     /**

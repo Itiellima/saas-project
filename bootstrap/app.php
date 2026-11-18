@@ -14,6 +14,15 @@ return Application::configure(basePath: dirname(__DIR__))
         // Em produção o app fica atrás do proxy do Easypanel (Traefik), que cuida do HTTPS.
         // Sem isto, o Laravel acha que a requisição é http:// e gera links e redirecionamentos errados.
         $middleware->trustProxies(at: '*');
+
+        // Oficina suspensa: desconecta quem ainda estava logado
+        $middleware->web(append: [
+            \App\Http\Middleware\EnsureTenantIsActive::class,
+        ]);
+
+        $middleware->alias([
+            'super-admin' => \App\Http\Middleware\EnsureSuperAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

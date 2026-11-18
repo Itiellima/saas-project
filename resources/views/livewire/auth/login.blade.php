@@ -38,6 +38,16 @@ new #[Layout('components.layouts.auth'), Title('Entrar')] class extends Componen
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        // Senha certa, mas a oficina está suspensa: não deixa entrar
+        if (Auth::user()->tenant?->isSuspended()) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => __('auth.suspended'),
+            ]);
+        }
+
         Session::regenerate();
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
@@ -78,6 +88,13 @@ new #[Layout('components.layouts.auth'), Title('Entrar')] class extends Componen
         description="Informe seu e-mail e senha para acessar o sistema." />
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
+
+    @if (session('suspended'))
+        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4" role="alert">
+            <i class="bi bi-slash-circle-fill"></i>
+            <span>{{ session('suspended') }}</span>
+        </div>
+    @endif
 
     <form wire:submit="login">
 

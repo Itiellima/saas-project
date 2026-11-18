@@ -22,4 +22,11 @@ class TenantFactory extends Factory
             'name' => $this->faker->name(),
         ];
     }
+
+    public function suspended(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'suspended',
+        ]);
+    }
 }
