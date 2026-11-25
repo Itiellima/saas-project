@@ -195,6 +195,18 @@
                 <span class="section-title d-inline">Saída:</span>
                 {{ $serviceOrder->vehicle_leave?->format('d/m/Y H:i') ?? 'Não informada' }}
             </div>
+            @if ($serviceOrder->creator)
+                <div>
+                    <span class="section-title d-inline">Aberta por:</span>
+                    {{ $serviceOrder->creator->name }}
+                </div>
+            @endif
+            @if ($serviceOrder->finisher)
+                <div>
+                    <span class="section-title d-inline">Finalizada por:</span>
+                    {{ $serviceOrder->finisher->name }}
+                </div>
+            @endif
         </div>
 
 

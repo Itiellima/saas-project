@@ -11,6 +11,8 @@ class ServiceOrder extends Model
 
     protected $fillable = [
         'tenant_id',
+        'created_by',
+        'finished_by',
         'customer_id',
         'vehicle_id',
         'name',
@@ -48,6 +50,35 @@ class ServiceOrder extends Model
     // {
     //     return $this->belongsTo(Customer::class);
     // }
+
+    /**
+     * Quem abriu a OS (vazio nas OS anteriores a este registro).
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Quem finalizou a OS pela última vez (limpo ao reabrir).
+     */
+    public function finisher()
+    {
+        return $this->belongsTo(User::class, 'finished_by');
+    }
+
+    /**
+     * "Aberta por João · Finalizada por Pedro" (só as partes conhecidas).
+     */
+    public function authorshipLine(): ?string
+    {
+        $line = collect([
+            $this->creator ? 'Aberta por ' . $this->creator->name : null,
+            $this->finisher ? 'Finalizada por ' . $this->finisher->name : null,
+        ])->filter()->implode(' · ');
+
+        return $line !== '' ? $line : null;
+    }
 
     public function vehicle()
     {

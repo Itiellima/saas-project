@@ -31,7 +31,11 @@
                         </h3>
 
                         <small class="text-secondary">
-                            Detalhes e gerenciamento da ordem de serviço
+                            @if ($serviceOrder->authorshipLine())
+                                <i class="bi bi-person me-1"></i>{{ $serviceOrder->authorshipLine() }}
+                            @else
+                                Detalhes e gerenciamento da ordem de serviço
+                            @endif
                         </small>
 
                     </div>

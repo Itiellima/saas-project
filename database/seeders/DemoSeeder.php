@@ -24,6 +24,8 @@ class DemoSeeder extends Seeder
 {
     private Tenant $tenant;
 
+    private User $user;
+
     /** @var array<string, Item> */
     private array $items = [];
 
@@ -63,13 +65,15 @@ class DemoSeeder extends Seeder
             'state' => 'SP',
         ]);
 
-        User::create([
+        $this->user = User::create([
             'tenant_id' => $this->tenant->id,
             'name' => 'Administrador Demo',
             'email' => 'admin@oficina.test',
             'password' => 'password',
             'email_verified_at' => now(),
-        ])->forceFill(['role' => 'admin'])->save();
+        ]);
+
+        $this->user->forceFill(['role' => 'admin'])->save();
     }
 
     private function createItems(): void
@@ -162,6 +166,7 @@ class DemoSeeder extends Seeder
         $order->update([
             'status' => 'in_progress',
             'finished_at' => null,
+            'finished_by' => null,
             'reopened_at' => $this->daysAgo(1),
             'reopen_reason' => 'Esqueci de lançar o filtro de ar na finalização.',
         ]);
@@ -171,6 +176,7 @@ class DemoSeeder extends Seeder
     {
         return ServiceOrder::create([
             'tenant_id' => $this->tenant->id,
+            'created_by' => $this->user->id,
             'customer_name' => $customer,
             'customer_phone' => '(11) 9' . random_int(1000, 9999) . '-' . random_int(1000, 9999),
             'vehicle_plate' => $plate,
@@ -224,6 +230,7 @@ class DemoSeeder extends Seeder
         $order->update([
             'status' => 'finished',
             'finished_at' => $when,
+            'finished_by' => $this->user->id,
             'vehicle_leave' => $when,
         ]);
     }

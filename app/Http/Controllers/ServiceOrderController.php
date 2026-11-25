@@ -37,6 +37,7 @@ class ServiceOrderController extends Controller
         $serviceOrder = ServiceOrder::create([
             ...$validated,
             'tenant_id' => Auth::user()->tenant_id,
+            'created_by' => Auth::id(),
             'vehicle_enter' => $validated['vehicle_enter'] ?? now(),
         ]);
 
@@ -76,6 +77,7 @@ class ServiceOrderController extends Controller
     public function show($id)
     {
         $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)
+            ->with(['creator', 'finisher'])
             ->findOrFail($id);
 
         $items = Item::where('tenant_id', Auth::user()->tenant_id)->get();
@@ -86,7 +88,7 @@ class ServiceOrderController extends Controller
     public function print($id)
     {
         $serviceOrder = ServiceOrder::where('tenant_id', Auth::user()->tenant_id)
-            ->with(['tenant', 'items' => fn ($query) => $query->oldest()])
+            ->with(['tenant', 'creator', 'finisher', 'items' => fn ($query) => $query->oldest()])
             ->findOrFail($id);
 
         return view('service-order.print', compact('serviceOrder'));
@@ -121,6 +123,7 @@ class ServiceOrderController extends Controller
         $serviceOrder->update([
             'status' => 'finished',
             'finished_at' => now(),
+            'finished_by' => Auth::id(),
             // O carro sai quando a OS é finalizada, se a saída não foi informada antes
             'vehicle_leave' => $serviceOrder->vehicle_leave ?? now(),
         ]);
@@ -149,6 +152,7 @@ class ServiceOrderController extends Controller
             // Com itens, o trabalho já tinha começado
             'status' => $serviceOrder->items()->exists() ? 'in_progress' : 'open',
             'finished_at' => null,
+            'finished_by' => null,
             'reopened_at' => now(),
             'reopen_reason' => $validated['reopen_reason'],
         ]);
