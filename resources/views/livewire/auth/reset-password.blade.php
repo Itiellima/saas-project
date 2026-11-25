@@ -48,6 +48,7 @@ new #[Layout('components.layouts.auth'), Title('Redefinir senha')] class extends
                 $user->forceFill([
                     'password' => Hash::make($this->password),
                     'remember_token' => Str::random(60),
+                    'must_change_password' => false,
                 ])->save();
 
                 event(new PasswordReset($user));

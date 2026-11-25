@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Oficina suspensa: desconecta quem ainda estava logado
         $middleware->web(append: [
             \App\Http\Middleware\EnsureTenantIsActive::class,
+            // Funcionário com senha provisória: só acessa a tela de troca de senha
+            \App\Http\Middleware\EnsurePasswordChanged::class,
         ]);
 
         $middleware->alias([

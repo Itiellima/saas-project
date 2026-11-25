@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\TenantController as AdminTenantController;
+use App\Http\Controllers\Auth\FirstPasswordController;
 use App\Http\Controllers\Auth\RegisterTenantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\WorkshopController;
 use App\Livewire\ServiceOrder\Index;
 
@@ -80,10 +82,20 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/items/toggle/{id}', [ItemController::class, 'toggle'])->name('items.toggle');
 });
 
-// Dados da própria oficina: só o dono
+// Primeiro acesso de funcionário: troca da senha provisória
+Route::middleware('auth')->group(function () {
+    Route::get('/first-password', [FirstPasswordController::class, 'edit'])->name('password.first');
+    Route::put('/first-password', [FirstPasswordController::class, 'update'])->name('password.first.update');
+});
+
+// Dados da própria oficina e equipe: só o dono
 Route::middleware(['auth', 'owner'])->group(function () {
     Route::get('/workshop', [WorkshopController::class, 'edit'])->name('workshop.edit');
     Route::put('/workshop', [WorkshopController::class, 'update'])->name('workshop.update');
+
+    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
+    Route::post('/team', [TeamController::class, 'store'])->name('team.store');
+    Route::put('/team/{id}/password', [TeamController::class, 'resetPassword'])->name('team.reset-password');
 });
 
 // Área do administrador geral da plataforma (404 para os demais)

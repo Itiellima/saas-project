@@ -4,6 +4,12 @@
         <i class="bi bi-building me-2"></i>
         Oficina
     </a>
+
+    <a href="{{ route('team.index') }}"
+        class="list-group-item list-group-item-action rounded {{ request()->routeIs('team.*') ? 'active' : '' }}">
+        <i class="bi bi-people me-2"></i>
+        Equipe
+    </a>
 @endif
 <a href="{{ route('profile.edit') }}"
     class="list-group-item list-group-item-action rounded {{ request()->routeIs('profile.*') ? 'active' : '' }}">
