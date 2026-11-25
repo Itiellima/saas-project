@@ -88,7 +88,9 @@
 
                                 <div class="d-flex align-items-center gap-2 flex-shrink-0">
 
-                                    @if ($member->must_change_password)
+                                    @if (! $member->active)
+                                        <span class="badge text-bg-secondary">Desativado</span>
+                                    @elseif ($member->must_change_password)
                                         <span class="badge text-bg-warning" title="Ainda não trocou a senha provisória">
                                             Aguardando 1º acesso
                                         </span>
@@ -99,15 +101,35 @@
                                     </span>
 
                                     @unless ($member->isOwner())
-                                        <form action="{{ route('team.reset-password', $member->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary"
-                                                title="Gerar nova senha provisória"
-                                                onclick="return confirm('Gerar uma nova senha provisória para {{ $member->name }}? A senha atual deixa de funcionar.')">
-                                                <i class="bi bi-key"></i>
-                                            </button>
-                                        </form>
+                                        @if ($member->active)
+                                            <form action="{{ route('team.reset-password', $member->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                                    title="Gerar nova senha provisória"
+                                                    onclick="return confirm('Gerar uma nova senha provisória para {{ $member->name }}? A senha atual deixa de funcionar.')">
+                                                    <i class="bi bi-key"></i>
+                                                </button>
+                                            </form>
+
+                                            <form action="{{ route('team.toggle', $member->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Desativar acesso"
+                                                    onclick="return confirm('Desativar {{ $member->name }}? Ele não conseguirá mais entrar, mas o histórico é mantido.')">
+                                                    <i class="bi bi-person-slash"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('team.toggle', $member->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                                    <i class="bi bi-arrow-counterclockwise me-1"></i>
+                                                    Reativar
+                                                </button>
+                                            </form>
+                                        @endif
                                     @endunless
 
                                 </div>

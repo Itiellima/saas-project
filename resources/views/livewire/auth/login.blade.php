@@ -39,12 +39,18 @@ new #[Layout('components.layouts.auth'), Title('Entrar')] class extends Componen
 
         RateLimiter::clear($this->throttleKey());
 
-        // Senha certa, mas a oficina está suspensa: não deixa entrar
-        if (Auth::user()->tenant?->isSuspended()) {
+        // Senha certa, mas a oficina está suspensa ou o usuário foi desativado: não deixa entrar
+        $blocked = match (true) {
+            (bool) Auth::user()->tenant?->isSuspended() => __('auth.suspended'),
+            ! Auth::user()->isActive() => __('auth.deactivated'),
+            default => null,
+        };
+
+        if ($blocked) {
             Auth::logout();
 
             throw ValidationException::withMessages([
-                'email' => __('auth.suspended'),
+                'email' => $blocked,
             ]);
         }
 

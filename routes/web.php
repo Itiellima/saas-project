@@ -104,6 +104,7 @@ Route::middleware(['auth', 'owner'])->group(function () {
     Route::get('/team', [TeamController::class, 'index'])->name('team.index');
     Route::post('/team', [TeamController::class, 'store'])->name('team.store');
     Route::put('/team/{id}/password', [TeamController::class, 'resetPassword'])->name('team.reset-password');
+    Route::put('/team/{id}/toggle', [TeamController::class, 'toggle'])->name('team.toggle');
 });
 
 // Área do administrador geral da plataforma (404 para os demais)

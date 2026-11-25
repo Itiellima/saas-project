@@ -10,17 +10,25 @@ use Symfony\Component\HttpFoundation\Response;
 class EnsureTenantIsActive
 {
     /**
-     * Quem já estava logado quando a oficina foi suspensa é desconectado na próxima ação.
-     * (O login em si também recusa oficinas suspensas.)
+     * Quem já estava logado é desconectado na próxima ação quando a oficina é suspensa
+     * ou quando o próprio usuário é desativado pelo dono. (O login também recusa os dois.)
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()?->tenant?->isSuspended()) {
+        $user = $request->user();
+
+        $message = match (true) {
+            (bool) $user?->tenant?->isSuspended() => __('auth.suspended'),
+            $user !== null && ! $user->isActive() => __('auth.deactivated'),
+            default => null,
+        };
+
+        if ($message) {
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->with('suspended', __('auth.suspended'));
+            return redirect()->route('login')->with('suspended', $message);
         }
 
         return $next($request);

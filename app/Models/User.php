@@ -47,6 +47,7 @@ class User extends Authenticatable // implements MustVerifyEmail
             'password' => 'hashed',
             'is_super_admin' => 'boolean',
             'must_change_password' => 'boolean',
+            'active' => 'boolean',
         ];
     }
 
@@ -56,6 +57,14 @@ class User extends Authenticatable // implements MustVerifyEmail
     public function isOwner(): bool
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Desativado pelo dono: não entra mais no sistema. (Sem valor carregado = padrão do banco, ativo.)
+     */
+    public function isActive(): bool
+    {
+        return $this->active ?? true;
     }
 
     /**

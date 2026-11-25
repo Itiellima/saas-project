@@ -150,6 +150,9 @@
                                     <small class="text-secondary">{{ $user->email }}</small>
                                 </div>
                                 <div class="d-flex gap-1 flex-shrink-0">
+                                    @unless ($user->isActive())
+                                        <span class="badge text-bg-secondary">Desativado</span>
+                                    @endunless
                                     @if ($user->isSuperAdmin())
                                         <span class="badge text-bg-dark">Admin geral</span>
                                     @endif

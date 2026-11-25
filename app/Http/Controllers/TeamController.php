@@ -69,7 +69,21 @@ class TeamController extends Controller
     }
 
     /**
-     * Funcionário da própria oficina (o dono não altera outro dono por aqui).
+     * Desativa (não entra mais, mas continua no histórico) ou reativa um funcionário.
+     */
+    public function toggle(int $id)
+    {
+        $member = $this->findEmployee($id);
+
+        $member->forceFill(['active' => ! $member->active])->save();
+
+        return redirect()->route('team.index')->with('success', $member->active
+            ? "{$member->name} foi reativado e já pode entrar no sistema."
+            : "{$member->name} foi desativado e não consegue mais entrar.");
+    }
+
+    /**
+     * Funcionário da própria oficina (o dono não altera outro dono, nem a si mesmo, por aqui).
      */
     private function findEmployee(int $id): User
     {
