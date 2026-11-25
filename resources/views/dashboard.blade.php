@@ -46,7 +46,8 @@
                         'icon' => 'bi-clipboard-check',
                         'detail' => 'OS concluídas desde o dia 1º',
                     ],
-                    [
+                    // Valores em dinheiro: só o dono
+                    ...(Auth::user()->isOwner() ? [[
                         'label' => 'Faturamento do mês',
                         'value' => 'R$ ' . number_format($stats['revenue'], 2, ',', '.'),
                         'icon' => 'bi-currency-dollar',
@@ -57,12 +58,12 @@
                         'value' => 'R$ ' . number_format($stats['average_ticket'], 2, ',', '.'),
                         'icon' => 'bi-graph-up',
                         'detail' => 'Faturamento ÷ OS finalizadas',
-                    ],
+                    ]] : []),
                 ];
             @endphp
 
             @foreach ($cards as $card)
-                <div class="col-12 col-sm-6 col-xl-3">
+                <div class="col-12 col-sm-6 {{ count($cards) > 2 ? 'col-xl-3' : '' }}">
 
                     <div class="card border-0 shadow-sm h-100">
 
@@ -161,7 +162,7 @@
                     <div class="list-group list-group-flush px-2 pb-2">
 
                         @forelse ($lowStockItems as $item)
-                            <a href="{{ route('items.edit', $item->id) }}"
+                            <a href="{{ Auth::user()->isOwner() ? route('items.edit', $item->id) : route('items.index') }}"
                                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-2">
 
                                 <span class="fw-semibold text-truncate">{{ $item->name }}</span>

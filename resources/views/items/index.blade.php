@@ -23,15 +23,17 @@
         </div>
 
 
-        {{-- BOTÃO --}}
-        <div class="mb-4">
+        {{-- BOTÃO (só o dono cadastra itens) --}}
+        @if (Auth::user()->isOwner())
+            <div class="mb-4">
 
-            <a href="{{ route('items.create') }}" class="btn text-white" style="background-color: #ff6500;">
-                <i class="bi bi-plus me-1"></i>
-                Novo item ou serviço
-            </a>
+                <a href="{{ route('items.create') }}" class="btn text-white" style="background-color: #ff6500;">
+                    <i class="bi bi-plus me-1"></i>
+                    Novo item ou serviço
+                </a>
 
-        </div>
+            </div>
+        @endif
 
 
         {{-- LISTA --}}
@@ -95,7 +97,8 @@
                         </div>
 
 
-                        {{-- AÇÕES --}}
+                        {{-- AÇÕES (só o dono) --}}
+                        @if (Auth::user()->isOwner())
                         <div class="card-footer bg-white border-top-0">
 
                             <div class="d-flex gap-2">
@@ -152,6 +155,7 @@
                             </div>
 
                         </div>
+                        @endif
 
                     </div>
 

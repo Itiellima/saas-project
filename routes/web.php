@@ -56,9 +56,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/service-orders/{id}', [ServiceOrderController::class, 'show'])->name('service-orders.show');
 
-    Route::delete('/service-orders/{id}', [ServiceOrderController::class, 'destroy'])->name('service-orders.destroy');
-
     Route::put('/service-orders/close/{id}', [ServiceOrderController::class, 'closeServiceOrder'])->name('service-orders.close');
+});
+
+// Ações da OS que só o dono pode fazer
+Route::middleware(['auth', 'owner'])->group(function () {
+
+    Route::delete('/service-orders/{id}', [ServiceOrderController::class, 'destroy'])->name('service-orders.destroy');
 
     Route::put('/service-orders/reopen/{id}', [ServiceOrderController::class, 'reopen'])->name('service-orders.reopen');
 
@@ -68,6 +72,10 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/items/index', [ItemController::class, 'index'])->name('items.index');
+});
+
+// Cadastro de itens, preços e estoque: só o dono (funcionários só consultam)
+Route::middleware(['auth', 'owner'])->group(function () {
 
     Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
 

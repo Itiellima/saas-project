@@ -5,6 +5,10 @@
 
 @section('content')
 
+    @php
+        $isOwner = Auth::user()->isOwner();
+    @endphp
+
     <div class="container-fluid px-3 px-md-4 py-4">
 
 
@@ -390,8 +394,8 @@
 
                     <div class="d-flex flex-column flex-sm-row gap-2">
 
-                        @if ($serviceOrder->status === 'finished')
-                            {{-- REABRIR --}}
+                        @if ($serviceOrder->status === 'finished' && $isOwner)
+                            {{-- REABRIR (só o dono) --}}
                             <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
                                 data-bs-target="#reopenModal">
                                 <i class="bi-unlock me-2"></i>
@@ -412,17 +416,19 @@
                             </form>
 
 
-                            {{-- CANCELAR --}}
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                data-bs-target="#cancelModal">
-                                <i class="bi-x-circle me-2"></i>
-                                Cancelar OS
-                            </button>
+                            {{-- CANCELAR (só o dono) --}}
+                            @if ($isOwner)
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#cancelModal">
+                                    <i class="bi-x-circle me-2"></i>
+                                    Cancelar OS
+                                </button>
+                            @endif
                         @endif
 
 
-                        {{-- EXCLUIR: só OS criada por engano, ainda sem itens --}}
-                        @if (! $serviceOrder->isLocked() && $serviceOrder->items()->doesntExist())
+                        {{-- EXCLUIR: só OS criada por engano, ainda sem itens (só o dono) --}}
+                        @if ($isOwner && ! $serviceOrder->isLocked() && $serviceOrder->items()->doesntExist())
                             <form action="{{ route('service-orders.destroy', $serviceOrder->id) }}" method="POST">
 
                                 @csrf
@@ -449,7 +455,7 @@
 
 
     {{-- MODAL REABRIR --}}
-    @if ($serviceOrder->status === 'finished')
+    @if ($serviceOrder->status === 'finished' && $isOwner)
         <div class="modal fade" id="reopenModal" tabindex="-1" aria-labelledby="reopenModalLabel" aria-hidden="true">
 
             <div class="modal-dialog modal-dialog-centered">
@@ -540,7 +546,7 @@
 
 
     {{-- MODAL CANCELAR --}}
-    @unless ($serviceOrder->isLocked())
+    @if ($isOwner && ! $serviceOrder->isLocked())
         <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
 
             <div class="modal-dialog modal-dialog-centered">
@@ -625,7 +631,7 @@
             </div>
 
         </div>
-    @endunless
+    @endif
 
 
     @push('scripts')

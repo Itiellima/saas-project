@@ -30,7 +30,19 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            // Como no cadastro pelo site: quem cria a conta é o dono da oficina
+            'role' => 'admin',
         ];
+    }
+
+    /**
+     * Funcionário (criado pelo dono na tela Equipe).
+     */
+    public function employee(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'user',
+        ]);
     }
 
     public function superAdmin(): static

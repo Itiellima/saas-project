@@ -116,7 +116,7 @@ test('the request can not change the internal identifier or the status', functio
 });
 
 test('a user who is not the owner gets not found and sees no menu link', function () {
-    $employee = User::factory()->create(['tenant_id' => $this->tenant->id]);
+    $employee = User::factory()->employee()->create(['tenant_id' => $this->tenant->id]);
 
     $this->actingAs($employee);
 

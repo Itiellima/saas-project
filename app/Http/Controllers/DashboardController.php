@@ -36,6 +36,11 @@ class DashboardController extends Controller
             'average_ticket' => $finishedCount > 0 ? $revenue / $finishedCount : 0,
         ];
 
+        // Funcionários não veem valores em dinheiro da oficina
+        if (! Auth::user()->isOwner()) {
+            unset($stats['revenue'], $stats['average_ticket']);
+        }
+
         $oldestPending = $orders()
             ->whereIn('status', ['open', 'in_progress'])
             ->orderBy('vehicle_enter')
